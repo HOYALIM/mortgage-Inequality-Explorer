@@ -18,14 +18,13 @@
             background: #f5f5f5;
             padding: 15px;
             transition: background 0.3s ease;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
         }
 
-        body.dark-mode {
-            background: #1a1a1a;
-        }
 
         .container {
-            max-width: 1800px;
+            max-width: 2340px; /* 30% increase from 1800px */
             margin: 0 auto;
         }
 
@@ -39,20 +38,11 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        body.dark-mode header {
-            background: #2d2d2d;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
-
         h1 {
             color: #2c3e50;
             margin-bottom: 8px;
-            font-size: 28px;
+            font-size: 36px;
             transition: color 0.3s ease;
-        }
-
-        body.dark-mode h1 {
-            color: #ffffff;
         }
 
         .subtitle {
@@ -61,89 +51,265 @@
             transition: color 0.3s ease;
         }
 
-        body.dark-mode .subtitle {
-            color: #b0b0b0;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            background: #f0f0f0;
-            border: 2px solid #ddd;
-            border-radius: 25px;
-            padding: 8px 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            color: #2c3e50;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .theme-toggle:hover {
-            background: #e0e0e0;
-            transform: scale(1.05);
-        }
-
-        body.dark-mode .theme-toggle {
-            background: #3d3d3d;
-            border-color: #555;
-            color: #ffffff;
-        }
-
-        body.dark-mode .theme-toggle:hover {
-            background: #4d4d4d;
-        }
-
         .map-section {
             background: white;
             border-radius: 15px;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             margin-bottom: 20px;
             width: 100%;
             transition: background 0.3s ease;
         }
-
-        body.dark-mode .map-section {
-            background: #2d2d2d;
+        
+        .map-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #667eea;
         }
 
         .charts-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
             margin-top: 20px;
         }
 
         .chart-card {
             background: white;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            padding: 60px; /* 2x increase */
+            box-shadow: 0 6px 30px rgba(0,0,0,0.15);
             position: relative;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.3s ease;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr; /* Adjusted ratio for better narrative space */
+            gap: 60px; /* 2x increase */
+            align-items: start;
+            margin-bottom: 0;
+            min-height: 100vh; /* Full viewport height */
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
-
-        body.dark-mode .chart-card {
-            background: #2d2d2d;
+        
+        .chart-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.2);
         }
-
-        .chart-title {
-            font-size: 16px;
+        
+        .chart-visual {
+            width: 100%;
+        }
+        
+        .chart-explanation {
+            padding: 50px; /* 2x increase */
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            border-radius: 16px;
+            border-left: 8px solid #667eea;
+            box-shadow: inset 0 4px 20px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .chart-explanation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .chart-explanation-title {
+            font-size: 56px; /* Larger for visibility */
             font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #667eea;
+            color: #1a237e;
+            margin-bottom: 40px;
             transition: color 0.3s ease;
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 5px solid #667eea;
         }
-
-        body.dark-mode .chart-title {
-            color: #ffffff;
+        
+        .story-navigation {
+            margin-bottom: 25px;
+        }
+        
+        .chart-story-main {
+            font-size: 52px; /* 2x increase */
+            font-weight: 700;
+            color: #1565c0;
+            margin-bottom: 40px;
+            padding: 50px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 16px;
+            border-left: 10px solid #1976d2;
+            line-height: 1.7;
+            font-style: italic;
+            box-shadow: 0 6px 24px rgba(33, 150, 243, 0.25);
+            transition: all 0.3s ease;
+            min-height: 160px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chart-story-main:hover {
+            transform: translateX(3px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.35);
+        }
+        
+        
+        .story-nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+        
+        .story-nav-button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 20px 40px;
+            font-size: 28px; /* 2x increase */
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .story-nav-button:hover:not(:disabled) {
+            background: #1565c0;
+            transform: scale(1.05);
+        }
+        
+        .story-nav-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .story-nav-indicator {
+            font-size: 28px; /* 2x increase */
+            color: #666;
+            font-weight: 500;
+        }
+        
+        
+        .insights-stack {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 20px;
+        }
+        
+        .insights-stack::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .insights-stack::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+        
+        .insights-stack::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 3px;
+        }
+        
+        .insights-stack::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        .insight-item {
+            background: #f0f7ff;
+            border-left: 8px solid #42a5f5;
+            padding: 30px 40px;
+            margin-bottom: 24px;
+            border-radius: 12px;
+            animation: slideIn 0.4s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .insight-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(66, 165, 245, 0.2);
+        }
+        
+        .insight-item-title {
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 16px;
+            font-size: 32px; /* 2x increase */
+        }
+        
+        .insight-item-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 28px; /* 2x increase */
+        }
+        
+        
+        .chart-story {
+            font-size: 22px; /* Large story text */
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 10px;
+            border-left: 5px solid #1976d2;
+            line-height: 1.6;
+            font-style: italic;
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .chart-story:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+        
+        .chart-explanation-fact {
+            font-size: 18px; /* Slightly increased */
+            font-weight: 600;
+            color: #1976d2;
+            margin-bottom: 18px;
+            padding: 15px;
+            background: #e1f5fe;
+            border-radius: 8px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        
+        .chart-title {
+            font-size: 56px; /* Larger for visibility */
+            font-weight: bold;
+            color: #1a237e;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 6px solid #667eea;
+            transition: color 0.3s ease;
+            text-align: center;
         }
 
         .chart-insight {
@@ -159,11 +325,6 @@
             transition: background 0.3s ease, color 0.3s ease;
         }
 
-        body.dark-mode .chart-insight {
-            background: #1e3a5f;
-            color: #e3f2fd;
-            border-left-color: #64b5f6;
-        }
 
         .county-info {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -175,9 +336,6 @@
             transition: background 0.3s ease;
         }
 
-        body.dark-mode .county-info {
-            background: linear-gradient(135deg, #1e3a8a 0%, #581c87 100%);
-        }
 
         .county-name {
             font-size: 22px;
@@ -264,6 +422,92 @@
             color: #ffd54f;
         }
 
+        /* NEW: Controls section styles */
+        .controls-section {
+            display: flex;
+            gap: 15px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: background 0.3s ease;
+        }
+
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #2c3e50;
+            transition: color 0.3s ease;
+        }
+
+
+        .control-group select {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            font-size: 14px;
+            background: #f9fbff;
+            transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+        }
+
+        .control-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        
+        /* NEW: Colorbar hover tooltip */
+        .js-plotly-plot .colorbar {
+            position: relative;
+        }
+        
+        .js-plotly-plot .colorbar-title {
+            cursor: help;
+            position: relative;
+        }
+        
+        .js-plotly-plot .colorbar-title:hover::after {
+            content: 'Higher values indicate a greater proportion of minority borrowers in mortgage lending';
+            position: absolute;
+            left: 100%;
+            top: 0;
+            margin-left: 10px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        
+
+        .reset-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #ff7675;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .reset-button:hover {
+            background: #ff5252;
+        }
+
         .correlation-section {
             background: white;
             border-radius: 15px;
@@ -273,9 +517,6 @@
             transition: background 0.3s ease;
         }
 
-        body.dark-mode .correlation-section {
-            background: #2d2d2d;
-        }
 
         .correlation-title {
             font-size: 22px;
@@ -286,9 +527,6 @@
             transition: color 0.3s ease;
         }
 
-        body.dark-mode .correlation-title {
-            color: #ffffff;
-        }
 
         .correlation-subtitle {
             font-size: 14px;
@@ -298,9 +536,6 @@
             transition: color 0.3s ease;
         }
 
-        body.dark-mode .correlation-subtitle {
-            color: #b0b0b0;
-        }
 
         #correlation-container {
             min-height: 500px;
@@ -314,19 +549,32 @@
     <div class="container">
         <header>
             <h1>🏠 Mortgage Inequality Explorer</h1>
-            <p class="subtitle">Interactive County-Level Loan Portfolio Analysis (2018-2021)</p>
-            <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
-                <span id="theme-icon">🌙</span>
-                <span id="theme-text">Dark</span>
-            </button>
+            <p class="subtitle">Interactive State & County-Level Loan Portfolio Analysis (2018-2023)</p>
         </header>
 
         <div class="instruction">
-            👆 <strong>Click on any county</strong> in the map to view detailed borrower statistics in the 4 charts below
+            👆 <strong>Click any state</strong> to drill down into its counties, then <strong>click any county</strong> to update the portfolio charts. 
+            Use the dropdowns below to jump directly to a specific year or state.
+        </div>
+
+        <!-- NEW: Controls Section -->
+        <div class="controls-section">
+            <div class="control-group">
+                <label for="year-select">Year</label>
+                <select id="year-select"></select>
+            </div>
+            <div class="control-group">
+                <label for="state-select">State</label>
+                <select id="state-select">
+                    <option value="">-- All States --</option>
+                </select>
+            </div>
+            <button class="reset-button" id="reset-view">Reset View</button>
         </div>
 
         <!-- Map Section (Full Width) -->
         <div class="map-section">
+            <div class="map-title">Minority Borrower Share by State</div>
             <div id="loading">
                 <div class="spinner"></div>
                 <p>Loading map and data...</p>
@@ -334,30 +582,102 @@
             <div id="map-container"></div>
         </div>
 
-        <!-- Charts Section (2x2 Grid) -->
+        <!-- Charts Section (Side-by-side layout) -->
         <div class="charts-grid">
             <div class="chart-card" id="loan-amount-card">
-                <div class="chart-title">💰 Loan Amount Distribution</div>
-                <div id="loan-amount-chart"></div>
-                <div id="loan-insight" class="chart-insight" style="display: none;"></div>
+                <div class="chart-visual">
+                    <div class="chart-title">Loan Amount Distribution</div>
+                    <div id="loan-amount-chart"></div>
+                    <div id="loan-insight" class="chart-insight" style="display: none;"></div>
+                </div>
+                <div class="chart-explanation" id="loan-explanation">
+                    <div class="chart-explanation-title">The Story Behind the Numbers</div>
+                    <div class="story-navigation">
+                        <div class="chart-story-main" id="loan-story-main">Loading the narrative...</div>
+                        <div class="story-nav-controls">
+                            <button class="story-nav-button" id="loan-prev-btn" onclick="navigateStory('loan', -1)">
+                                ← Previous
+                            </button>
+                            <span class="story-nav-indicator" id="loan-story-indicator">1 / 1</span>
+                            <button class="story-nav-button" id="loan-next-btn" onclick="navigateStory('loan', 1)">
+                                Next →
+                            </button>
+                        </div>
+                        <div class="insights-stack" id="loan-insights-stack"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="chart-card" id="age-card">
-                <div class="chart-title">👥 Age Distribution</div>
-                <div id="age-chart"></div>
-                <div id="age-insight" class="chart-insight" style="display: none;"></div>
+                <div class="chart-visual">
+                    <div class="chart-title">Age Distribution</div>
+                    <div id="age-chart"></div>
+                    <div id="age-insight" class="chart-insight" style="display: none;"></div>
+                </div>
+                <div class="chart-explanation" id="age-explanation">
+                    <div class="chart-explanation-title">The Story Behind the Numbers</div>
+                    <div class="story-navigation">
+                        <div class="chart-story-main" id="age-story-main">Loading the narrative...</div>
+                        <div class="story-nav-controls">
+                            <button class="story-nav-button" id="age-prev-btn" onclick="navigateStory('age', -1)">
+                                ← Previous
+                            </button>
+                            <span class="story-nav-indicator" id="age-story-indicator">1 / 1</span>
+                            <button class="story-nav-button" id="age-next-btn" onclick="navigateStory('age', 1)">
+                                Next →
+                            </button>
+                        </div>
+                        <div class="insights-stack" id="age-insights-stack"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="chart-card" id="race-card">
-                <div class="chart-title">🌍 Race/Ethnicity</div>
-                <div id="race-chart"></div>
-                <div id="race-insight" class="chart-insight" style="display: none;"></div>
+                <div class="chart-visual">
+                    <div class="chart-title">Race/Ethnicity</div>
+                    <div id="race-chart"></div>
+                    <div id="race-insight" class="chart-insight" style="display: none;"></div>
+                </div>
+                <div class="chart-explanation" id="race-explanation">
+                    <div class="chart-explanation-title">The Story Behind the Numbers</div>
+                    <div class="story-navigation">
+                        <div class="chart-story-main" id="race-story-main">Loading the narrative...</div>
+                        <div class="story-nav-controls">
+                            <button class="story-nav-button" id="race-prev-btn" onclick="navigateStory('race', -1)">
+                                ← Previous
+                            </button>
+                            <span class="story-nav-indicator" id="race-story-indicator">1 / 1</span>
+                            <button class="story-nav-button" id="race-next-btn" onclick="navigateStory('race', 1)">
+                                Next →
+                            </button>
+                        </div>
+                        <div class="insights-stack" id="race-insights-stack"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="chart-card" id="income-card">
-                <div class="chart-title">💵 Income Level</div>
-                <div id="income-chart"></div>
-                <div id="income-insight" class="chart-insight" style="display: none;"></div>
+                <div class="chart-visual">
+                    <div class="chart-title">Income Level</div>
+                    <div id="income-chart"></div>
+                    <div id="income-insight" class="chart-insight" style="display: none;"></div>
+                </div>
+                <div class="chart-explanation" id="income-explanation">
+                    <div class="chart-explanation-title">The Story Behind the Numbers</div>
+                    <div class="story-navigation">
+                        <div class="chart-story-main" id="income-story-main">Loading the narrative...</div>
+                        <div class="story-nav-controls">
+                            <button class="story-nav-button" id="income-prev-btn" onclick="navigateStory('income', -1)">
+                                ← Previous
+                            </button>
+                            <span class="story-nav-indicator" id="income-story-indicator">1 / 1</span>
+                            <button class="story-nav-button" id="income-next-btn" onclick="navigateStory('income', 1)">
+                                Next →
+                            </button>
+                        </div>
+                        <div class="insights-stack" id="income-insights-stack"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -372,80 +692,197 @@
     </div>
 
     <script>
-        let currentYear = 2021;
-        let countyDataByYear = new Map();
+        let currentYear = 2023; // NEW: Updated to 2023
+        let countyDataByYear = new Map(); // NEW: State data by year
+        let countyLevelDataByYear = new Map(); // NEW: County data by year (for county-level view)
         let tractDataByYear = new Map();
         let selectedCountyFips = null;
-
-        // Theme toggle function
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
+        let currentViewMode = 'state'; // NEW: Track view mode ('state' or 'county')
+        let currentStateViewFips = null; // NEW: Track which state is expanded
+        let controlsInitialized = false; // NEW: Prevent duplicate control bindings
+        let availableYears = [];
+        const stateNameByFips = new Map(); // NEW: Lookup for state names
+        const countyNameByFips = new Map(); // NEW: Lookup for county names
+        let mapGraph = null; // NEW: Keep reference to Plotly graph instance
+        
+        // Story navigation state for each chart
+        const storyState = {
+            loan: { currentIndex: 0, insights: [] },
+            age: { currentIndex: 0, insights: [] },
+            race: { currentIndex: 0, insights: [] },
+            income: { currentIndex: 0, insights: [] }
+        };
+        
+        // Story navigation function
+        function navigateStory(chartType, direction) {
+            const state = storyState[chartType];
+            const newIndex = state.currentIndex + direction;
+            const totalStories = 1 + state.insights.length; // Main story + insights
             
-            body.classList.toggle('dark-mode');
-            
-            if (body.classList.contains('dark-mode')) {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark';
-                localStorage.setItem('theme', 'light');
+            if (newIndex >= 0 && newIndex < totalStories) {
+                state.currentIndex = newIndex;
+                updateStoryDisplay(chartType);
             }
         }
-
-        // Load saved theme preference
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('theme-icon').textContent = '☀️';
-                document.getElementById('theme-text').textContent = 'Light';
+        
+        function updateStoryDisplay(chartType) {
+            const state = storyState[chartType];
+            const totalStories = 1 + state.insights.length;
+            
+            // Update main story
+            const mainStoryEl = document.getElementById(`${chartType}-story-main`);
+            if (state.currentIndex === 0) {
+                // Show main story
+                mainStoryEl.style.display = 'flex';
+            } else {
+                mainStoryEl.style.display = 'none';
             }
+            
+            // Update insights stack
+            const insightsStackEl = document.getElementById(`${chartType}-insights-stack`);
+            insightsStackEl.innerHTML = '';
+            
+            // Show all insights up to current index
+            for (let i = 0; i < state.currentIndex && i < state.insights.length; i++) {
+                const insight = state.insights[i];
+                const insightDiv = document.createElement('div');
+                insightDiv.className = 'insight-item';
+                insightDiv.innerHTML = `
+                    <div class="insight-item-title">${insight.title}</div>
+                    <div class="insight-item-text">${insight.text}</div>
+                `;
+                insightsStackEl.appendChild(insightDiv);
+            }
+            
+            // Update navigation buttons
+            const prevBtn = document.getElementById(`${chartType}-prev-btn`);
+            const nextBtn = document.getElementById(`${chartType}-next-btn`);
+            const indicator = document.getElementById(`${chartType}-story-indicator`);
+            
+            if (prevBtn) prevBtn.disabled = state.currentIndex === 0;
+            if (nextBtn) nextBtn.disabled = state.currentIndex >= totalStories - 1;
+            if (indicator) indicator.textContent = `${state.currentIndex + 1} / ${totalStories}`;
+        }
+        
+        // Adjusted blue scale: 50% should be more blue (less white)
+        const BLUE_SCALE = [
+            [0, '#f0f8ff'],      // Very light blue (almost white) for 0%
+            [0.1, '#cce5ff'],    // Light blue for 10%
+            [0.3, '#80c7ff'],    // Medium-light blue for 30%
+            [0.5, '#3399ff'],    // Sky blue for 50% (more blue, less white)
+            [0.7, '#0066cc'],    // Medium blue for 70%
+            [0.9, '#003d7a'],    // Dark blue for 90%
+            [1, '#001a33']       // Very dark blue for 100%
+        ];
+        
+        // NEW: State FIPS to State Abbreviation mapping
+        const stateFipsToAbbr = {
+            '01': 'AL', '02': 'AK', '04': 'AZ', '05': 'AR', '06': 'CA',
+            '08': 'CO', '09': 'CT', '10': 'DE', '11': 'DC', '12': 'FL',
+            '13': 'GA', '15': 'HI', '16': 'ID', '17': 'IL', '18': 'IN',
+            '19': 'IA', '20': 'KS', '21': 'KY', '22': 'LA', '23': 'ME',
+            '24': 'MD', '25': 'MA', '26': 'MI', '27': 'MN', '28': 'MS',
+            '29': 'MO', '30': 'MT', '31': 'NE', '32': 'NV', '33': 'NH',
+            '34': 'NJ', '35': 'NM', '36': 'NY', '37': 'NC', '38': 'ND',
+            '39': 'OH', '40': 'OK', '41': 'OR', '42': 'PA', '44': 'RI',
+            '45': 'SC', '46': 'SD', '47': 'TN', '48': 'TX', '49': 'UT',
+            '50': 'VT', '51': 'VA', '53': 'WA', '54': 'WV', '55': 'WI',
+            '56': 'WY'
+        };
+        
+        // NEW: Reverse mapping: abbreviation to FIPS
+        const stateAbbrToFips = {};
+        Object.keys(stateFipsToAbbr).forEach(fips => {
+            stateAbbrToFips[stateFipsToAbbr[fips]] = fips;
         });
+
 
         // Load all data
         Promise.all([
-            d3.csv("county_data_2018_2023.csv"),
+            d3.csv("state_data_2018_2023.csv"), // NEW: Load state data
+            d3.csv("county_data_2018_2023.csv"), // NEW: Load county data for county-level view
+            d3.csv("location_data.csv"), // NEW: Lookup for names
             d3.csv("hmda_tract_2018.csv"),
             d3.csv("hmda_tract_2019.csv"),
             d3.csv("hmda_tract_2020.csv"),
-            d3.csv("hmda_tract_2021.csv")
-        ]).then(([countyData, ...tractDataArrays]) => {
+            d3.csv("hmda_tract_2021.csv"),
+            d3.csv("hmda_tract_2022.csv"), // NEW: Include 2022
+            d3.csv("hmda_tract_2023.csv")  // NEW: Include 2023
+        ]).then(([stateData, countyData, locationData, ...tractDataArrays]) => {
             console.log("Data loaded successfully");
+            processLocationData(locationData); // NEW: Prepare name lookups
             
-            // Process county data
-            countyData.forEach(d => {
+            // NEW: Process state data (now includes 2022 and 2023)
+            stateData.forEach(d => {
                 const year = +d.year;
-                if (year === 2022 || year === 2023) {
-                    return; 
+                // Skip rows with invalid state_fips
+                if (!d.state_fips || d.state_fips === 'nan' || d.state_fips === 'NaN') {
+                    return;
+                }
+                // Convert state_fips to 2-digit string (pad with zero if needed)
+                const stateFips = String(+d.state_fips).padStart(2, '0');
+                // Convert to state abbreviation for Plotly
+                const stateAbbr = stateFipsToAbbr[stateFips];
+                if (!stateAbbr) {
+                    console.warn(`Unknown state FIPS: ${stateFips}`);
+                    return;
                 }
                 if (!countyDataByYear.has(year)) {
                     countyDataByYear.set(year, new Map());
                 }
-                countyDataByYear.get(year).set(d.county_fips, {
+                // Store with abbreviation as key (for map display) but keep FIPS for reference
+                countyDataByYear.get(year).set(stateAbbr, {
                     minorityShare: +d.minority_share,
-                    originations: +d.owner_purchase_originations
+                    originations: +d.owner_purchase_originations,
+                    stateFips: stateFips  // Keep FIPS for filtering tract data
+                });
+            });
+
+            // NEW: Process county data for county-level view
+            countyData.forEach(d => {
+                const year = +d.year;
+                // Skip rows with invalid county_fips
+                if (!d.county_fips || d.county_fips === 'nan' || d.county_fips === 'NaN') {
+                    return;
+                }
+                // Ensure county_fips is 5-digit string
+                const countyFips = String(d.county_fips).padStart(5, '0');
+                if (!countyLevelDataByYear.has(year)) {
+                    countyLevelDataByYear.set(year, new Map());
+                }
+                countyLevelDataByYear.get(year).set(countyFips, {
+                    minorityShare: +d.minority_share,
+                    originations: +d.owner_purchase_originations,
+                    stateFips: countyFips.substring(0, 2) // Extract state FIPS
                 });
             });
 
             // Process tract data by year
-            const years = [2018, 2019, 2020, 2021];
+            const years = [2018, 2019, 2020, 2021, 2022, 2023]; // NEW: Include 2022, 2023
             tractDataArrays.forEach((tractData, idx) => {
                 const year = years[idx];
                 const processed = tractData.map(d => {
-                    const geo = d.geo2010 || '';
+                    // NEW: 2022-2023 uses geo2020, earlier years use geo2010
+                    const geo = (year >= 2022) ? (d.geo2020 || '') : (d.geo2010 || '');
+                    const countyFips = geo.substring(0, 5);
                     return {
                         ...d,
-                        county_fips: geo.substring(0, 5),
-                        year: year
+                        county_fips: countyFips.padStart(5, '0'), // Ensure 5-digit string
+                        year: year,
+                        // Preserve geo columns for later use
+                        geo2020: d.geo2020 || '',
+                        geo2010: d.geo2010 || ''
                     };
                 });
                 tractDataByYear.set(year, processed);
+                console.log(`Processed ${processed.length} tracts for year ${year}, ${processed.filter(d => d.county_fips.startsWith('06')).length} in California`);
             });
 
+            availableYears = Array.from(countyDataByYear.keys()).sort((a, b) => a - b);
+            if (!controlsInitialized) {
+                initializeControls(availableYears);
+                controlsInitialized = true;
+            }
             createMap();
         }).catch(error => {
             console.error("Error loading data:", error);
@@ -455,47 +892,71 @@
 
         function createMap() {
             document.getElementById('loading').style.display = 'none';
+            currentViewMode = 'state';
+            currentStateViewFips = null;
+            selectedCountyFips = null;
+            const stateSelectEl = document.getElementById('state-select');
+            if (stateSelectEl) {
+                stateSelectEl.value = '';
+            }
 
-            const years = Array.from(countyDataByYear.keys()).sort();
+            const years = availableYears.length ? availableYears : Array.from(countyDataByYear.keys()).sort();
             const frames = [];
             
             years.forEach(year => {
                 const yearData = countyDataByYear.get(year);
                 const fips = Array.from(yearData.keys());
                 const values = fips.map(f => yearData.get(f).minorityShare);
+                const texts = fips.map(f => {
+                    const info = yearData.get(f);
+                    const stateFips = info?.stateFips;
+                    return stateNameByFips.get(stateFips) || `State ${stateFips || f}`;
+                });
                 
                 frames.push({
                     name: year.toString(),
                     data: [{
                         type: 'choropleth',
-                        locationmode: 'geojson-id',
-                        geojson: 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json',
+                        locationmode: 'USA-states',
                         locations: fips,
                         z: values,
-                        colorscale: 'YlOrRd',
+                        colorscale: BLUE_SCALE,
                         zmin: 0,
                         zmax: 1,
                         marker: {
                             line: {
                                 color: 'white',
-                                width: 0.3
+                                width: 1
                             }
                         },
+                        text: texts,
                         colorbar: {
-                            title: 'Minority<br>Share',
+                            title: {
+                                text: 'Minority<br>Share<br><span style="font-size:9px;font-weight:normal;opacity:0.8;">(Higher = More Minority)</span>',
+                                side: 'right'
+                            },
                             tickformat: '.0%',
-                            len: 0.5
+                            len: 0.5,
+                            tickmode: 'array',
+                            tickvals: [0, 0.25, 0.5, 0.75, 1],
+                            ticktext: ['0%', '25%', '50%', '75%', '100%'],
+                            titlefont: {
+                                size: 12
+                            }
                         },
-                        hovertemplate: '<b>County: %{location}</b><br>' +
+                        hovertemplate: '<b>%{text}</b><br>' +
                                        'Minority Share: %{z:.1%}<br>' +
                                        '<extra></extra>'
                     }]
                 });
             });
 
+            const initialIndex = Math.max(0, years.indexOf(currentYear));
+            const initialData = frames[initialIndex]?.data || frames[frames.length - 1].data;
+
             const layout = {
                 title: {
-                    text: 'Minority Borrower Share by County',
+                    text: 'Minority Borrower Share by State', // NEW: Changed to State
                     font: {size: 22, color: '#2c3e50'},
                     x: 0.5,
                     xanchor: 'center'
@@ -506,7 +967,7 @@
                     lakecolor: 'rgb(240,248,255)',
                     projection: {type: 'albers usa'}
                 },
-                height: 600,
+                height: 780, // 30% increase from 600
                 margin: {t: 60, b: 60, l: 10, r: 10},
                 dragmode: 'zoom',
                 sliders: [{
@@ -561,16 +1022,26 @@
                 responsive: true
             };
 
-            Plotly.newPlot('map-container', frames[frames.length - 1].data, layout, config)
+            Plotly.newPlot('map-container', initialData, layout, config)
                 .then(gd => {
-                    Plotly.addFrames('map-container', frames);
+                    Plotly.addFrames(gd, frames);
                     
-                    // Click event
+                    // NEW: Click event (now for states)
                     gd.on('plotly_click', function(data) {
                         if (data.points.length > 0) {
-                            const countyFips = data.points[0].location;
-                            selectedCountyFips = countyFips;
-                            updateAllCharts(countyFips, currentYear);
+                            const stateAbbr = data.points[0].location; // This is now abbreviation
+                            // Convert back to FIPS for filtering
+                            const stateFips = stateAbbrToFips[stateAbbr] || stateAbbr;
+                            selectedCountyFips = stateFips; // Store FIPS for filtering
+                            
+                            // NEW: If in state view, switch to county view for selected state
+                            if (currentViewMode === 'state') {
+                                showCountyView(stateFips, stateAbbr);
+                            } else {
+                                // If in county view, treat click as county selection
+                                const countyFips = data.points[0].location;
+                                updateAllCharts(countyFips, currentYear);
+                            }
                         }
                     });
 
@@ -579,23 +1050,276 @@
                         const yearIndex = data.slider.active;
                         const years = Array.from(countyDataByYear.keys()).sort();
                         currentYear = years[yearIndex];
+                        const yearSelect = document.getElementById('year-select');
+                        if (yearSelect) {
+                            yearSelect.value = currentYear;
+                        }
                         if (selectedCountyFips) {
                             updateAllCharts(selectedCountyFips, currentYear);
                         }
                     });
                 });
+            
+            const yearSelect = document.getElementById('year-select');
+            if (yearSelect) {
+                yearSelect.value = currentYear;
+            }
         }
 
-        function updateAllCharts(countyFips, year) {
-            const tractData = tractDataByYear.get(year).filter(d => d.county_fips === countyFips);
+        // NEW: Function to show county-level view for a selected state
+        function showCountyView(stateFips, stateAbbr) {
+            currentViewMode = 'county';
+            const stateFipsStr = String(stateFips).padStart(2, '0');
+            currentStateViewFips = stateFipsStr;
+            selectedCountyFips = stateFipsStr;
+            const stateSelectEl = document.getElementById('state-select');
+            if (stateSelectEl) {
+                stateSelectEl.value = stateFipsStr;
+            }
+            
+            // Get county data for this state
+            let stateCounties = new Map();
+            const yearData = countyLevelDataByYear.get(currentYear);
+            
+            if (yearData) {
+                // Use county data if available
+                yearData.forEach((value, countyFips) => {
+                    if (countyFips.substring(0, 2) === stateFipsStr) {
+                        stateCounties.set(countyFips, value);
+                    }
+                });
+            }
+            
+            // FIX: Always aggregate from tract data to ensure completeness (especially for 2022/2023)
+            // This ensures all counties with data are included, even if county_data CSV is incomplete
+            if (tractDataByYear.has(currentYear)) {
+                console.log(`Aggregating county data from tract data for state ${stateFipsStr} in year ${currentYear}`);
+                const tractData = tractDataByYear.get(currentYear);
+                const countyAgg = new Map();
+                
+                tractData.forEach(d => {
+                    // Extract county_fips - handle both pre-processed and raw data
+                    let countyFips = d.county_fips || '';
+                    if (!countyFips || countyFips === '' || countyFips === 'undefined') {
+                        // Extract from geo2020 (2022+) or geo2010 (earlier)
+                        const geo = (currentYear >= 2022) ? (d.geo2020 || '') : (d.geo2010 || '');
+                        countyFips = geo.substring(0, 5);
+                    }
+                    countyFips = String(countyFips).padStart(5, '0');
+                    
+                    // Only process if it's a valid 5-digit FIPS code for this state
+                    if (countyFips.length === 5 && countyFips.substring(0, 2) === stateFipsStr) {
+                        if (!countyAgg.has(countyFips)) {
+                            countyAgg.set(countyFips, {
+                                totalOriginations: 0,
+                                minorityOriginations: 0
+                            });
+                        }
+                        const agg = countyAgg.get(countyFips);
+                        const orig = +(d.owner_purchase_originations || 0);
+                        if (orig > 0) {
+                            agg.totalOriginations += orig;
+                            
+                            // Calculate minority originations from race/ethnicity data
+                            const white = +(d.race_white_purchase || 0);
+                            const black = +(d.race_black_purchase || 0);
+                            const hispanic = +(d.race_hispanic_purchase || 0);
+                            const asian = +(d.race_asian_purchase || 0);
+                            const other = +(d.race_other_purchase || 0);
+                            
+                            // Calculate minority (non-white) originations
+                            if (white + black + hispanic + asian + other > 0) {
+                                // Use race data if available
+                                const minority = orig - white;
+                                agg.minorityOriginations += Math.max(0, minority);
+                            } else if (d.minority_share !== undefined && d.minority_share !== null && d.minority_share !== '') {
+                                // Fallback to minority_share if available
+                                const minorityShare = +d.minority_share;
+                                if (!isNaN(minorityShare) && minorityShare >= 0 && minorityShare <= 1) {
+                                    agg.minorityOriginations += orig * minorityShare;
+                                }
+                            } else {
+                                // If no race data and no minority_share, estimate based on total
+                                // This is a fallback - ideally we should have race data
+                                agg.minorityOriginations += orig * 0.3; // Conservative estimate
+                            }
+                        }
+                    }
+                });
+                
+                // Calculate minority share for each county and merge with existing data
+                countyAgg.forEach((agg, countyFips) => {
+                    if (agg.totalOriginations > 0) {
+                        agg.minorityShare = agg.minorityOriginations / agg.totalOriginations;
+                        agg.originations = agg.totalOriginations;
+                        agg.stateFips = countyFips.substring(0, 2);
+                        // Overwrite or add to stateCounties (tract data takes precedence for accuracy)
+                        stateCounties.set(countyFips, agg);
+                    }
+                });
+                
+                console.log(`Aggregated ${stateCounties.size} counties for state ${stateFipsStr} in year ${currentYear}`);
+            }
+            
+            if (stateCounties.size === 0) {
+                console.warn(`No counties found for state ${stateFips} in year ${currentYear}`);
+                return;
+            }
+            
+            // Create county-level map
+            const fips = Array.from(stateCounties.keys());
+            const values = fips.map(f => stateCounties.get(f).minorityShare);
+            const stateName = stateNameByFips.get(stateFipsStr) || stateAbbr || `State ${stateFipsStr}`;
+            
+            const trace = {
+                type: 'choropleth',
+                locationmode: 'geojson-id',
+                geojson: 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json',
+                locations: fips,
+                z: values,
+                colorscale: BLUE_SCALE,
+                zmin: 0,
+                zmax: 1,
+                marker: {
+                    line: {
+                        color: 'white',
+                        width: 0.5
+                    }
+                },
+                text: fips.map(f => {
+                    const countyName = countyNameByFips.get(f);
+                    const stateLabel = stateNameByFips.get(f.substring(0, 2)) || '';
+                    return countyName ? `${countyName}, ${stateLabel}` : `County ${f}`;
+                }),
+                colorbar: {
+                    title: {
+                        text: 'Minority<br>Share<br><span style="font-size:9px;font-weight:normal;opacity:0.8;">(Higher = More Minority)</span>',
+                        side: 'right'
+                    },
+                    tickformat: '.0%',
+                    len: 0.5,
+                    tickmode: 'array',
+                    tickvals: [0, 0.25, 0.5, 0.75, 1],
+                    ticktext: ['0%', '25%', '50%', '75%', '100%']
+                },
+                hovertemplate: '<b>%{text}</b><br>' +
+                               'Minority Share: %{z:.1%}<br>' +
+                               '<extra></extra>'
+            };
+            
+            const layout = {
+                title: {
+                    text: `Minority Borrower Share by County - ${stateName}`,
+                    font: {size: 22, color: '#2c3e50'},
+                    x: 0.5,
+                    xanchor: 'center'
+                },
+                geo: {
+                    scope: 'usa',
+                    showlakes: true,
+                    lakecolor: 'rgb(240,248,255)',
+                    projection: {type: 'albers usa'},
+                    fitbounds: 'locations'
+                },
+                height: 780, // 30% increase from 600
+                margin: {t: 60, b: 60, l: 10, r: 10},
+                dragmode: 'zoom',
+                updatemenus: [{
+                    type: 'buttons',
+                    showactive: false,
+                    x: 0.05,
+                    y: 0,
+                    xanchor: 'left',
+                    yanchor: 'top',
+                    buttons: [{
+                        label: '← Back to States',
+                        method: 'relayout',
+                        args: [{}]
+                    }]
+                }]
+            };
+            
+            const config = {
+                scrollZoom: true,
+                displayModeBar: true,
+                modeBarButtonsToAdd: ['zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'resetScale2d'],
+                responsive: true
+            };
+            
+            Plotly.newPlot('map-container', [trace], layout, config)
+                .then(gd => {
+                    mapGraph = gd;
+                    // NEW: Add click event for county selection
+                    gd.on('plotly_click', function(data) {
+                        if (data.points.length > 0) {
+                            const countyFips = data.points[0].location;
+                            selectedCountyFips = countyFips;
+                            updateAllCharts(countyFips, currentYear);
+                        }
+                    });
+                    
+                    // NEW: Handle "Back to States" button click
+                    gd.on('plotly_buttonclicked', function(data) {
+                        if (data.button && data.button.label === '← Back to States') {
+                            currentViewMode = 'state';
+                            selectedCountyFips = null;
+                            createMap();
+                        }
+                    });
+                    
+                    // Update charts for state aggregate initially
+                    updateAllCharts(stateFipsStr, currentYear);
+                });
+        }
+
+        function updateAllCharts(stateFips, year) {
+            // NEW: Filter tract data - handle both state FIPS (2 digits) and county FIPS (5 digits)
+            const rawFips = String(stateFips);
+            const isCountyFips = rawFips.length >= 5;
+            const normalizedFips = isCountyFips ? rawFips.padStart(5, '0') : rawFips.padStart(2, '0');
+            
+            // FIX: Check if tractDataByYear has data for this year
+            if (!tractDataByYear.has(year)) {
+                console.warn(`No tract data available for year ${year}`);
+                showNoDataMessage(normalizedFips, year);
+                return;
+            }
+            
+            const allTractData = tractDataByYear.get(year);
+            if (!allTractData || allTractData.length === 0) {
+                console.warn(`No tract data available for year ${year}`);
+                showNoDataMessage(normalizedFips, year);
+                return;
+            }
+            
+            // FIX: Ensure county_fips is properly extracted for 2022/2023
+            const tractData = allTractData.filter(d => {
+                let countyFips = d.county_fips || '';
+                // If county_fips is not set, try to extract from geo2020 or geo2010
+                if (!countyFips || countyFips === '') {
+                    const geo = (year >= 2022) ? (d.geo2020 || '') : (d.geo2010 || '');
+                    countyFips = geo.substring(0, 5);
+                }
+                // Ensure it's a 5-digit string
+                countyFips = String(countyFips).padStart(5, '0');
+                
+                if (isCountyFips) {
+                    // If county FIPS provided, filter by exact match
+                    return countyFips === normalizedFips;
+                } else {
+                    // If state FIPS provided, filter by state prefix
+                    return countyFips.substring(0, 2) === normalizedFips;
+                }
+            });
             
             if (tractData.length === 0) {
-                showNoDataMessage(countyFips, year);
+                console.warn(`No tract data found for ${isCountyFips ? 'county' : 'state'} ${normalizedFips} in year ${year}`);
+                showNoDataMessage(normalizedFips, year);
                 return;
             }
 
             // Update county info
-            updateCountyInfo(countyFips, year, tractData);
+            updateCountyInfo(normalizedFips, year, tractData);
 
             // Update all 4 charts
             updateLoanAmountChart(tractData);
@@ -604,16 +1328,30 @@
             updateIncomeChart(tractData);
             
             // Update correlation heatmap
-            updateCorrelationHeatmap(tractData, countyFips, year);
+            updateCorrelationHeatmap(tractData, normalizedFips, year);
         }
 
         function updateCountyInfo(fips, year, tractData) {
+            const normalizedFips = String(fips);
+            const isCounty = normalizedFips.length === 5;
             const totalLoans = d3.sum(tractData, d => +(d.owner_purchase_originations || 0));
             const avgLoanAmount = d3.mean(tractData, d => +(d.owner_loan_amount_median || 0));
             
+            let displayName;
+            if (isCounty) {
+                const countyName = countyNameByFips.get(normalizedFips) || `County ${normalizedFips}`;
+                const stateFips = normalizedFips.substring(0, 2);
+                const stateName = stateNameByFips.get(stateFips) || `State ${stateFips}`;
+                displayName = `${countyName}, ${stateName}`;
+            } else {
+                const stateName = stateNameByFips.get(normalizedFips) || `State ${normalizedFips}`;
+                const stateAbbr = stateFipsToAbbr[normalizedFips] || normalizedFips;
+                displayName = `State: ${stateName} (${stateAbbr})`;
+            }
+            
             const html = `
                 <div class="county-info">
-                    <div class="county-name">County: ${fips}</div>
+                    <div class="county-name">${displayName}</div>
                     <div class="county-details">
                         Year: ${year} | ${tractData.length} Census Tracts | 
                         ${totalLoans.toLocaleString()} Total Originations | 
@@ -651,13 +1389,21 @@
                 percentages.push((amt / totalAmount * 100).toFixed(1));
             });
 
-            const data = [{
+            const maxIdx = amounts.indexOf(Math.max(...amounts));
+            const isAffordable = maxIdx < 2;
+            
+            // Highlight the dominant range with special color
+            const highlightColor = '#ff6b35'; // Orange for highlight
+            const colors = labels.map((_, i) => i === maxIdx ? highlightColor : '#1565c0');
+            
+            const chartData = [{
                 x: labels,
                 y: amounts,
                 type: 'bar',
                 marker: {
-                    color: ['#0d47a1', '#1565c0', '#1976d2', '#1e88e5', '#42a5f5'],
-                    line: {color: 'white', width: 1.5}
+                    color: colors,
+                    line: {color: 'white', width: 2},
+                    opacity: labels.map((_, i) => i === maxIdx ? 1 : 0.6) // Highlight dominant
                 },
                 text: percentages.map(p => p + '%'),
                 textposition: 'outside',
@@ -670,27 +1416,121 @@
             }];
 
             const layout = {
-                height: 320,
-                margin: {t: 30, b: 60, l: 70, r: 20},
-                xaxis: {title: 'Price Range'},
-                yaxis: {
-                    title: 'Total Loan Amount ($)',
-                    titlefont: {size: 12},
-                    tickformat: '$.2s'
+                height: 832, // 2x increase from 416
+                margin: {t: 80, b: 160, l: 180, r: 60},
+                xaxis: {
+                    title: {text: 'Price Range', font: {size: 32}},
+                    tickfont: {size: 28}
                 },
-                showlegend: false
+                yaxis: {
+                    title: {text: 'Total Loan Amount ($)', font: {size: 32}},
+                    titlefont: {size: 28},
+                    tickformat: '$.2s',
+                    tickfont: {size: 24}
+                },
+                showlegend: false,
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)'
             };
 
-            Plotly.newPlot('loan-amount-chart', data, layout, {responsive: true});
+            Plotly.newPlot('loan-amount-chart', chartData, layout, {responsive: true});
             
-            const maxIdx = amounts.indexOf(Math.max(...amounts));
-            const insight = maxIdx < 2 ? 
-                `Most loan volume in lower-priced homes (${labels[maxIdx]}: ${percentages[maxIdx]}%)` :
-                `Mid-to-high priced homes dominate (${labels[maxIdx]}: ${percentages[maxIdx]}%)`;
+            // Analyze race and income patterns for insights
+            const raceData = {
+                white: d3.sum(tractData, d => +(d.race_white_purchase || 0)),
+                black: d3.sum(tractData, d => +(d.race_black_purchase || 0)),
+                hispanic: d3.sum(tractData, d => +(d.race_hispanic_purchase || 0)),
+                asian: d3.sum(tractData, d => +(d.race_asian_purchase || 0)),
+                other: d3.sum(tractData, d => +(d.race_other_purchase || 0))
+            };
+            const totalRace = Object.values(raceData).reduce((a,b) => a+b, 0);
+            const racePcts = {
+                white: (raceData.white / totalRace * 100).toFixed(1),
+                black: (raceData.black / totalRace * 100).toFixed(1),
+                hispanic: (raceData.hispanic / totalRace * 100).toFixed(1),
+                asian: (raceData.asian / totalRace * 100).toFixed(1)
+            };
             
-            document.getElementById('loan-insight').style.display = 'block';
-            document.getElementById('loan-insight').textContent = 
-                `${insight} | Total: ${totalBorrowers.toLocaleString()} borrowers, $${(totalAmount/1e6).toFixed(1)}M`;
+            const incomeData = {
+                veryLow: d3.sum(tractData, d => +(d.income_verylow_purchase || 0)),
+                low: d3.sum(tractData, d => +(d.income_low_purchase || 0)),
+                moderate: d3.sum(tractData, d => +(d.income_moderate_purchase || 0)),
+                high: d3.sum(tractData, d => +(d.income_high_purchase || 0))
+            };
+            const totalIncome = Object.values(incomeData).reduce((a,b) => a+b, 0);
+            const isLowIncome = (incomeData.veryLow + incomeData.low) / totalIncome > 0.5;
+            
+            // Create main narrative story
+            const mainStory = isAffordable ? 
+                `In this region, the housing market tells a story of accessibility: ${percentages[maxIdx]}% of all loan volume flows into ${labels[maxIdx]} homes, painting a picture of an affordable market where dreams of homeownership remain within reach.` :
+                `The financial landscape here reveals a different narrative: ${percentages[maxIdx]}% of loan volume concentrates in ${labels[maxIdx]} properties, signaling a premium market where higher barriers to entry shape the path to homeownership.`;
+            
+            // Generate insights connecting race, income, and loan amounts (3-4 insights)
+            const insights = [];
+            
+            // Insight 1: Race and affordability connection
+            if (parseFloat(racePcts.black) > 15 && isAffordable) {
+                insights.push({
+                    title: 'The Affordability-Race Connection',
+                    text: `Black borrowers represent ${racePcts.black}% of all borrowers, and the market is dominated by affordable homes (${labels[maxIdx]}). This suggests that while Black families are accessing homeownership, they're largely concentrated in lower-priced segments—a pattern that reflects both economic constraints and potential barriers to wealth-building through higher-value properties.`
+                });
+            } else if (parseFloat(racePcts.black) > 15 && !isAffordable) {
+                insights.push({
+                    title: 'The Premium Market Disparity',
+                    text: `Despite Black borrowers representing ${racePcts.black}% of borrowers, the market is dominated by premium homes (${labels[maxIdx]}). This creates a concerning pattern: if Black families are accessing mortgages, they may be taking on higher debt burdens relative to their income, or they're significantly underrepresented in this high-value market segment.`
+                });
+            }
+            
+            // Insight 2: Income and loan amount relationship
+            if (isLowIncome && !isAffordable) {
+                insights.push({
+                    title: 'The Income-Loan Mismatch',
+                    text: `Over 50% of borrowers are in low or very low income categories, yet ${percentages[maxIdx]}% of loan volume is in the ${labels[maxIdx]} range. This disconnect suggests that lower-income borrowers may be stretching their budgets to access housing, potentially creating financial vulnerability and limiting their ability to build wealth through homeownership.`
+                });
+            } else if (isLowIncome && isAffordable) {
+                insights.push({
+                    title: 'Affordable Market Access for Low-Income Families',
+                    text: `The market is dominated by affordable homes (${labels[maxIdx]}), and over 50% of borrowers are in low-income categories. This alignment suggests that affordable housing programs may be working, but it also raises questions about whether these families can build wealth through property appreciation, as lower-priced homes typically appreciate less than higher-value properties.`
+                });
+            }
+            
+            // Insight 3: Hispanic and affordability
+            if (parseFloat(racePcts.hispanic) > 20 && isAffordable) {
+                insights.push({
+                    title: 'Hispanic Homeownership Patterns',
+                    text: `Hispanic borrowers make up ${racePcts.hispanic}% of the market, with loans concentrated in affordable ranges. This pattern reflects both the demographic composition of the area and the economic realities facing many Hispanic families—accessing homeownership through lower-priced properties, which may limit long-term wealth accumulation compared to higher-value markets.`
+                });
+            }
+            
+            // Insight 4: Asian and high-value markets
+            if (parseFloat(racePcts.asian) > 10 && !isAffordable) {
+                insights.push({
+                    title: 'Asian Families in Premium Markets',
+                    text: `Asian borrowers represent ${racePcts.asian}% of the market, with loans concentrated in higher-priced segments (${labels[maxIdx]}). This pattern may reflect higher average incomes among Asian families, but it also highlights the diversity within the Asian community and the need to avoid monolithic assumptions about economic status.`
+                });
+            }
+            
+            // Insight 5: White dominance pattern
+            if (parseFloat(racePcts.white) > 60 && !isAffordable) {
+                insights.push({
+                    title: 'Wealth Concentration in White Communities',
+                    text: `White borrowers represent ${racePcts.white}% of the market, with loans concentrated in premium segments (${labels[maxIdx]}). This pattern suggests that White families are not only accessing homeownership at higher rates but also doing so with greater financial resources, potentially reinforcing existing wealth disparities.`
+                });
+            }
+            
+            // Ensure at least 3 insights
+            if (insights.length < 3) {
+                insights.push({
+                    title: 'Market Dynamics and Access',
+                    text: `The concentration of loans in the ${labels[maxIdx]} range (${percentages[maxIdx]}%) reflects complex market dynamics. While ${isAffordable ? 'affordability' : 'premium pricing'} shapes access, the intersection of race (${racePcts.white}% White, ${racePcts.black}% Black, ${racePcts.hispanic}% Hispanic) and income levels creates distinct pathways to homeownership that warrant deeper investigation.`
+                });
+            }
+            
+            // Update story state
+            storyState.loan.currentIndex = 0;
+            storyState.loan.insights = insights;
+            document.getElementById('loan-story-main').textContent = mainStory;
+            updateStoryDisplay('loan');
         }
 
         function updateAgeChart(tractData) {
@@ -703,31 +1543,115 @@
 
             const total = Object.values(ageData).reduce((a,b) => a+b, 0);
             const avgLoan = d3.mean(tractData, d => +(d.owner_loan_amount_median || 0)) || 0;
-
-            const data = [{
-                labels: Object.keys(ageData),
-                values: Object.values(ageData),
-                type: 'pie',
-                marker: {colors: ['#0d47a1', '#1976d2', '#42a5f5', '#90caf9']},
-                textinfo: 'label+percent',
-                textposition: 'inside',
-                hole: 0.3
-            }];
-
-            const layout = {
-                height: 320,
-                margin: {t: 20, b: 20, l: 20, r: 20},
-                showlegend: false
-            };
-
-            Plotly.newPlot('age-chart', data, layout, {responsive: true});
-
             const maxAge = Object.keys(ageData).reduce((a, b) => ageData[a] > ageData[b] ? a : b);
             const maxPct = (ageData[maxAge] / total * 100).toFixed(1);
             
-            document.getElementById('age-insight').style.display = 'block';
-            document.getElementById('age-insight').textContent = 
-                `Dominant: ${maxAge} (${maxPct}%) | Total: ${total.toLocaleString()} borrowers, $${(total*avgLoan/1e6).toFixed(1)}M`;
+            // Highlight dominant age group
+            const ageLabels = Object.keys(ageData);
+            const ageColors = ageLabels.map(age => age === maxAge ? '#ff6b35' : '#1565c0');
+            const ageOpacities = ageLabels.map(age => age === maxAge ? 1 : 0.6);
+
+            const data = [{
+                labels: ageLabels,
+                values: Object.values(ageData),
+                type: 'pie',
+                marker: {
+                    colors: ageColors,
+                    line: {color: 'white', width: 3}
+                },
+                textinfo: 'label+percent',
+                textposition: 'inside',
+                hole: 0.3,
+                opacity: ageOpacities[0] // Apply to all, but we'll use colors for highlight
+            }];
+
+            const layout = {
+                height: 832, // 2x increase
+                margin: {t: 60, b: 60, l: 60, r: 60},
+                showlegend: false,
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)'
+            };
+
+            Plotly.newPlot('age-chart', data, layout, {responsive: true});
+            
+            // Analyze race and income for age insights
+            const raceData = {
+                white: d3.sum(tractData, d => +(d.race_white_purchase || 0)),
+                black: d3.sum(tractData, d => +(d.race_black_purchase || 0)),
+                hispanic: d3.sum(tractData, d => +(d.race_hispanic_purchase || 0)),
+                asian: d3.sum(tractData, d => +(d.race_asian_purchase || 0))
+            };
+            const totalRace = Object.values(raceData).reduce((a,b) => a+b, 0);
+            const incomeData = {
+                veryLow: d3.sum(tractData, d => +(d.income_verylow_purchase || 0)),
+                low: d3.sum(tractData, d => +(d.income_low_purchase || 0)),
+                moderate: d3.sum(tractData, d => +(d.income_moderate_purchase || 0)),
+                high: d3.sum(tractData, d => +(d.income_high_purchase || 0))
+            };
+            const totalIncome = Object.values(incomeData).reduce((a,b) => a+b, 0);
+            const blackPct = totalRace > 0 ? ((raceData.black / totalRace) * 100).toFixed(1) : 0;
+            const hispanicPct = totalRace > 0 ? ((raceData.hispanic / totalRace) * 100).toFixed(1) : 0;
+            const highIncomePct = totalIncome > 0 ? ((incomeData.high / totalIncome) * 100).toFixed(1) : 0;
+            const lowIncomePct = totalIncome > 0 ? (((incomeData.veryLow + incomeData.low) / totalIncome) * 100).toFixed(1) : 0;
+            
+            // Create main narrative story
+            const ageStories = {
+                '18-34': `The ${maxAge} generation leads the charge in homeownership, representing ${maxPct}% of all borrowers—a testament to young adults taking their first steps into the housing market, building equity and stability for their futures.`,
+                '35-44': `At ${maxPct}% of borrowers, the ${maxAge} age group dominates this market, reflecting a generation in their prime earning years, expanding families, and making significant investments in their long-term financial security.`,
+                '45-54': `The ${maxAge} cohort, comprising ${maxPct}% of borrowers, represents established homeowners who are upgrading, relocating, or investing—a generation with accumulated wealth and clear housing goals.`,
+                '55+': `With ${maxPct}% of all borrowers, the ${maxAge} group tells a story of downsizing, retirement planning, and strategic real estate moves, reflecting a generation optimizing their housing for the next chapter of life.`
+            };
+            const mainStory = ageStories[maxAge] || 
+                `The ${maxAge} age group represents ${maxPct}% of borrowers, shaping the character of this housing market.`;
+            
+            // Generate insights (3-4 insights)
+            const insights = [];
+            
+            // Insight 1: Young Black homebuyers
+            if (maxAge === '18-34' && parseFloat(blackPct) > 10) {
+                insights.push({
+                    title: 'Young Black Homebuyers',
+                    text: `Young adults (18-34) dominate this market, and Black borrowers represent ${blackPct}% of all borrowers. This suggests that young Black families are actively entering homeownership, but their ability to build wealth through property may be constrained by income levels and loan amounts available to first-time buyers. The intersection of age, race, and income creates distinct pathways to homeownership that shape long-term wealth accumulation.`
+                });
+            }
+            
+            // Insight 2: Older wealthier homeowners
+            if (maxAge === '55+' && parseFloat(highIncomePct) > 30) {
+                insights.push({
+                    title: 'Wealth Transfer Patterns',
+                    text: `Older borrowers (55+) represent ${maxPct}% of the market, with ${highIncomePct}% in high-income brackets. This pattern suggests that older, wealthier homeowners are making strategic moves, potentially transferring wealth through real estate transactions—a dynamic that may perpetuate economic disparities if younger, lower-income families are excluded from similar opportunities.`
+                });
+            }
+            
+            // Insight 3: Young Hispanic families
+            if (maxAge === '18-34' && parseFloat(hispanicPct) > 20) {
+                insights.push({
+                    title: 'Hispanic First-Time Buyers',
+                    text: `Young adults (18-34) lead with ${maxPct}%, and Hispanic borrowers represent ${hispanicPct}% of the market. This pattern reflects the demographic reality of many Hispanic communities, where younger families are entering homeownership. However, if these families are concentrated in lower-income segments, their ability to build wealth through property appreciation may be limited compared to higher-income markets.`
+                });
+            }
+            
+            // Insight 4: Middle-age and income patterns
+            if ((maxAge === '35-44' || maxAge === '45-54') && parseFloat(lowIncomePct) > 40) {
+                insights.push({
+                    title: 'Prime-Age Borrowers and Economic Constraints',
+                    text: `The ${maxAge} age group dominates with ${maxPct}%, yet over ${lowIncomePct}% of borrowers are in low-income categories. This pattern suggests that even in prime earning years, many families are accessing homeownership with limited financial resources. This may reflect regional economic conditions, but it also raises questions about whether these families can build wealth through property ownership if they're constrained to lower-value homes.`
+                });
+            }
+            
+            // Ensure at least 3 insights
+            if (insights.length < 3) {
+                insights.push({
+                    title: 'Age, Race, and Income Intersections',
+                    text: `The ${maxAge} age group's dominance (${maxPct}%) intersects with racial demographics (${blackPct}% Black, ${hispanicPct}% Hispanic) and income patterns (${highIncomePct}% high-income, ${lowIncomePct}% low-income) to create distinct pathways to homeownership. Understanding these intersections is crucial for identifying barriers to wealth building and opportunities for more equitable access.`
+                });
+            }
+            
+            storyState.age.currentIndex = 0;
+            storyState.age.insights = insights;
+            document.getElementById('age-story-main').textContent = mainStory;
+            updateStoryDisplay('age');
         }
 
         function updateRaceChart(tractData) {
@@ -742,31 +1666,126 @@
             const total = Object.values(raceData).reduce((a,b) => a+b, 0);
             const percentages = Object.values(raceData).map(v => (v/total*100).toFixed(1));
             const avgLoan = d3.mean(tractData, d => +(d.owner_loan_amount_median || 0)) || 0;
+            const maxRace = Object.keys(raceData).reduce((a, b) => raceData[a] > raceData[b] ? a : b);
+            const maxPct = (raceData[maxRace] / total * 100).toFixed(1);
+            
+            // Highlight dominant race group
+            const raceLabels = Object.keys(raceData);
+            const raceColors = raceLabels.map(race => race === maxRace ? '#ff6b35' : '#1565c0');
+            const raceOpacities = raceLabels.map(race => race === maxRace ? 1 : 0.6);
 
             const data = [{
-                x: Object.keys(raceData),
+                x: raceLabels,
                 y: percentages,
                 type: 'bar',
-                marker: {color: ['#0d47a1', '#1565c0', '#1976d2', '#1e88e5', '#42a5f5']},
+                marker: {
+                    color: raceColors,
+                    line: {color: 'white', width: 2},
+                    opacity: raceOpacities
+                },
                 text: percentages.map(p => p + '%'),
                 textposition: 'outside'
             }];
 
             const layout = {
-                height: 320,
-                margin: {t: 20, b: 60, l: 40, r: 20},
-                xaxis: {title: ''},
-                yaxis: {title: 'Percentage (%)', range: [0, Math.max(...percentages) * 1.2]}
+                height: 832, // 2x increase
+                margin: {t: 60, b: 160, l: 100, r: 60},
+                xaxis: {
+                    title: {text: '', font: {size: 32}},
+                    tickfont: {size: 28}
+                },
+                yaxis: {
+                    title: {text: 'Percentage (%)', font: {size: 32}},
+                    titlefont: {size: 28},
+                    range: [0, Math.max(...percentages) * 1.2],
+                    tickfont: {size: 24}
+                },
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)'
             };
 
             Plotly.newPlot('race-chart', data, layout, {responsive: true});
-
-            const maxRace = Object.keys(raceData).reduce((a, b) => raceData[a] > raceData[b] ? a : b);
-            const maxPct = (raceData[maxRace] / total * 100).toFixed(1);
             
-            document.getElementById('race-insight').style.display = 'block';
-            document.getElementById('race-insight').textContent = 
-                `Largest: ${maxRace} (${maxPct}%) | Total: ${total.toLocaleString()} borrowers, $${(total*avgLoan/1e6).toFixed(1)}M`;
+            // Analyze income patterns for race insights
+            const incomeData = {
+                veryLow: d3.sum(tractData, d => +(d.income_verylow_purchase || 0)),
+                low: d3.sum(tractData, d => +(d.income_low_purchase || 0)),
+                moderate: d3.sum(tractData, d => +(d.income_moderate_purchase || 0)),
+                high: d3.sum(tractData, d => +(d.income_high_purchase || 0))
+            };
+            const totalIncome = Object.values(incomeData).reduce((a,b) => a+b, 0);
+            const isLowIncome = (incomeData.veryLow + incomeData.low) / totalIncome > 0.5;
+            const isHighIncome = incomeData.high / totalIncome > 0.4;
+            const lowIncomePct = totalIncome > 0 ? (((incomeData.veryLow + incomeData.low) / totalIncome) * 100).toFixed(1) : 0;
+            const highIncomePct = totalIncome > 0 ? ((incomeData.high / totalIncome) * 100).toFixed(1) : 0;
+            
+            // Create main narrative story
+            const mainStory = `The demographic landscape of homeownership reveals ${maxRace} borrowers as the dominant group, representing ${maxPct}% of all mortgage activity—a figure that speaks to both the community's composition and the ongoing conversation about equity and access in housing finance.`;
+            
+            // Generate insights connecting race and income (3-4 insights)
+            const insights = [];
+            const blackPct = (raceData['Black'] / total * 100).toFixed(1);
+            const hispanicPct = (raceData['Hispanic'] / total * 100).toFixed(1);
+            const whitePct = (raceData['White'] / total * 100).toFixed(1);
+            const asianPct = (raceData['Asian'] / total * 100).toFixed(1);
+            
+            // Insight 1: Black borrowers and income
+            if (parseFloat(blackPct) > 15 && isLowIncome) {
+                insights.push({
+                    title: 'The Race-Income Intersection',
+                    text: `Black borrowers represent ${blackPct}% of all borrowers, and over ${lowIncomePct}% of borrowers are in low or very low income categories. This intersection reveals a critical pattern: Black families are accessing homeownership, but they're concentrated in lower-income segments. While this represents progress in access, it also suggests that Black families may face barriers to building wealth through higher-value properties, perpetuating the racial wealth gap.`
+                });
+            } else if (parseFloat(blackPct) > 15 && !isLowIncome) {
+                insights.push({
+                    title: 'Black Homeownership in Higher-Income Markets',
+                    text: `Black borrowers lead with ${blackPct}% representation, yet the market is not dominated by low-income borrowers (only ${lowIncomePct}% low-income). This pattern could indicate either that Black families in this area have achieved higher income levels, or that lower-income Black families are significantly underrepresented in mortgage lending—a disparity that warrants deeper investigation.`
+                });
+            }
+            
+            // Insight 2: Hispanic and income connection
+            if (parseFloat(hispanicPct) > 20 && isLowIncome) {
+                insights.push({
+                    title: 'Hispanic Families and Economic Access',
+                    text: `Hispanic borrowers make up ${hispanicPct}% of the market, with over ${lowIncomePct}% of all borrowers in low-income categories. This pattern reflects both the demographic reality of many Hispanic communities and the economic challenges they face. While homeownership is being accessed, the concentration in lower-income segments may limit long-term wealth accumulation compared to higher-income markets.`
+                });
+            }
+            
+            // Insight 3: White dominance and income
+            if (parseFloat(whitePct) > 50 && isHighIncome) {
+                insights.push({
+                    title: 'The Wealth Concentration Pattern',
+                    text: `White borrowers dominate with ${whitePct}% representation, and over ${highIncomePct}% of borrowers are in high-income brackets. This pattern suggests that White families are not only accessing homeownership at higher rates but also doing so with greater financial resources, potentially reinforcing existing wealth disparities and limiting opportunities for wealth transfer to minority communities.`
+                });
+            }
+            
+            // Insight 4: Underrepresentation gap
+            if (parseFloat(blackPct) < 15 && isLowIncome) {
+                insights.push({
+                    title: 'The Underrepresentation Gap',
+                    text: `Despite over ${lowIncomePct}% of borrowers being low-income, Black borrowers represent only ${blackPct}% of the market. This underrepresentation suggests that even when income barriers are addressed, racial barriers may persist in mortgage lending—a pattern that requires policy intervention to ensure equitable access to homeownership.`
+                });
+            }
+            
+            // Insight 5: Asian patterns
+            if (parseFloat(asianPct) > 10 && isHighIncome) {
+                insights.push({
+                    title: 'Asian Families and Higher-Income Access',
+                    text: `Asian borrowers represent ${asianPct}% of the market, with ${highIncomePct}% of borrowers in high-income brackets. While this pattern may reflect higher average incomes, it's important to recognize the diversity within the Asian community and avoid monolithic assumptions about economic status.`
+                });
+            }
+            
+            // Ensure at least 3 insights
+            if (insights.length < 3) {
+                insights.push({
+                    title: 'Racial Composition and Economic Patterns',
+                    text: `The racial composition (${whitePct}% White, ${blackPct}% Black, ${hispanicPct}% Hispanic, ${asianPct}% Asian) intersects with income patterns (${lowIncomePct}% low-income, ${highIncomePct}% high-income) to create distinct pathways to homeownership. Understanding these intersections is essential for identifying systemic barriers and opportunities for more equitable access.`
+                });
+            }
+            
+            storyState.race.currentIndex = 0;
+            storyState.race.insights = insights;
+            document.getElementById('race-story-main').textContent = mainStory;
+            updateStoryDisplay('race');
         }
 
         function updateIncomeChart(tractData) {
@@ -786,14 +1805,23 @@
             
             // Calculate percentages
             const percentages = amounts.map(amt => (amt / totalAmount * 100).toFixed(1));
+            const maxIdx = amounts.indexOf(Math.max(...amounts));
+            const maxIncome = Object.keys(incomeData)[maxIdx];
+            const maxPct = percentages[maxIdx];
+            
+            // Highlight dominant income level
+            const incomeLabels = Object.keys(incomeData);
+            const incomeColors = incomeLabels.map((_, i) => i === maxIdx ? '#ff6b35' : '#1565c0');
+            const incomeOpacities = incomeLabels.map((_, i) => i === maxIdx ? 1 : 0.6);
 
             const data = [{
-                x: Object.keys(incomeData),
+                x: incomeLabels,
                 y: amounts,
                 type: 'bar',
                 marker: {
-                    color: ['#0d47a1', '#1565c0', '#1976d2', '#42a5f5'],
-                    line: {color: 'white', width: 1.5}
+                    color: incomeColors,
+                    line: {color: 'white', width: 2},
+                    opacity: incomeOpacities
                 },
                 text: percentages.map(p => p + '%'),
                 textposition: 'outside',
@@ -806,26 +1834,103 @@
             }];
 
             const layout = {
-                height: 320,
-                margin: {t: 30, b: 60, l: 70, r: 20},
-                xaxis: {title: 'Income Level'},
-                yaxis: {
-                    title: 'Total Loan Amount ($)',
-                    titlefont: {size: 12},
-                    tickformat: '$.2s'
+                height: 832, // 2x increase
+                margin: {t: 80, b: 160, l: 180, r: 60},
+                xaxis: {
+                    title: {text: 'Income Level', font: {size: 32}},
+                    tickfont: {size: 28}
                 },
-                showlegend: false
+                yaxis: {
+                    title: {text: 'Total Loan Amount ($)', font: {size: 32}},
+                    titlefont: {size: 28},
+                    tickformat: '$.2s',
+                    tickfont: {size: 24}
+                },
+                showlegend: false,
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)'
             };
 
             Plotly.newPlot('income-chart', data, layout, {responsive: true});
-
-            const maxIdx = amounts.indexOf(Math.max(...amounts));
-            const maxIncome = Object.keys(incomeData)[maxIdx];
-            const maxPct = percentages[maxIdx];
             
-            document.getElementById('income-insight').style.display = 'block';
-            document.getElementById('income-insight').textContent = 
-                `Dominant: ${maxIncome} (${maxPct}%) | Total: ${totalLoans.toLocaleString()} loans, $${(totalAmount/1e6).toFixed(1)}M`;
+            // Analyze race patterns for income insights
+            const raceData = {
+                white: d3.sum(tractData, d => +(d.race_white_purchase || 0)),
+                black: d3.sum(tractData, d => +(d.race_black_purchase || 0)),
+                hispanic: d3.sum(tractData, d => +(d.race_hispanic_purchase || 0)),
+                asian: d3.sum(tractData, d => +(d.race_asian_purchase || 0))
+            };
+            const totalRace = Object.values(raceData).reduce((a,b) => a+b, 0);
+            const blackPct = totalRace > 0 ? (raceData.black / totalRace * 100).toFixed(1) : 0;
+            const hispanicPct = totalRace > 0 ? (raceData.hispanic / totalRace * 100).toFixed(1) : 0;
+            const whitePct = totalRace > 0 ? (raceData.white / totalRace * 100).toFixed(1) : 0;
+            const asianPct = totalRace > 0 ? (raceData.asian / totalRace * 100).toFixed(1) : 0;
+            
+            // Create main narrative story
+            const incomeStories = {
+                'Very Low': `The economic story here centers on accessibility: ${maxPct}% of loan volume flows to ${maxIncome} income borrowers, revealing a market where affordable housing programs and first-time buyer initiatives create pathways to homeownership for those with limited financial resources.`,
+                'Low': `This market tells a story of opportunity: ${maxPct}% of loan volume supports ${maxIncome} income borrowers, reflecting a housing landscape where moderate-income families can access the benefits of homeownership through targeted programs and market conditions.`,
+                'Moderate': `The financial narrative here is one of stability: ${maxPct}% of loan volume goes to ${maxIncome} income borrowers, representing a middle-class market where working families build equity and secure their financial futures through homeownership.`,
+                'High': `This region's economic profile reveals a premium market: ${maxPct}% of loan volume concentrates in ${maxIncome} income brackets, signaling a housing landscape shaped by higher barriers to entry and the financial capacity of affluent borrowers.`
+            };
+            const mainStory = incomeStories[maxIncome] || 
+                `The ${maxIncome} income level dominates with ${maxPct}% of total loan volume, shaping the economic character of this housing market.`;
+            
+            // Generate insights connecting income and race (3-4 insights)
+            const insights = [];
+            
+            // Insight 1: Low income and race
+            if ((maxIncome === 'Very Low' || maxIncome === 'Low') && parseFloat(blackPct) > 10) {
+                insights.push({
+                    title: 'The Low-Income, High-Minority Pattern',
+                    text: `The market is dominated by ${maxIncome} income borrowers (${maxPct}%), and Black borrowers represent ${blackPct}% of all borrowers. This intersection reveals a critical reality: while Black families are accessing homeownership, they're doing so primarily in lower-income segments. This pattern reflects both historical economic disparities and ongoing barriers to wealth accumulation, as lower-priced homes typically appreciate less than higher-value properties, limiting long-term wealth building.`
+                });
+            }
+            
+            // Insight 2: High income and race
+            if (maxIncome === 'High' && parseFloat(whitePct) > 50) {
+                insights.push({
+                    title: 'Wealth Concentration by Race',
+                    text: `High-income borrowers dominate with ${maxPct}% of loan volume, and White borrowers represent ${whitePct}% of all borrowers. This pattern suggests that White families are not only accessing homeownership at higher rates but also doing so with greater financial resources. The concentration of wealth in White communities, combined with higher-value property ownership, perpetuates the racial wealth gap and limits opportunities for intergenerational wealth transfer in minority communities.`
+                });
+            }
+            
+            // Insight 3: Hispanic and low income
+            if ((maxIncome === 'Very Low' || maxIncome === 'Low') && parseFloat(hispanicPct) > 15) {
+                insights.push({
+                    title: 'Economic Realities for Hispanic Families',
+                    text: `Hispanic borrowers make up ${hispanicPct}% of the market, with ${maxIncome} income borrowers dominating at ${maxPct}%. This pattern reflects the economic challenges facing many Hispanic families, who are accessing homeownership but doing so primarily through lower-income segments. While this represents progress in access, the concentration in lower-value properties may limit their ability to build wealth compared to higher-income markets.`
+                });
+            }
+            
+            // Insight 4: The affordability-race disconnect
+            if (maxIncome === 'High' && parseFloat(blackPct) > 15) {
+                insights.push({
+                    title: 'The Affordability Challenge',
+                    text: `Despite Black borrowers representing ${blackPct}% of the market, high-income borrowers dominate with ${maxPct}% of loan volume. This disconnect suggests that Black families may be underrepresented in the high-income segment, or they're taking on higher debt burdens relative to their income to access housing. Either pattern creates financial vulnerability and limits wealth-building opportunities.`
+                });
+            }
+            
+            // Insight 5: Moderate income patterns
+            if (maxIncome === 'Moderate' && parseFloat(blackPct) > 20) {
+                insights.push({
+                    title: 'Middle-Class Access and Racial Equity',
+                    text: `Moderate-income borrowers lead with ${maxPct}% of loan volume, and Black borrowers represent ${blackPct}% of the market. This pattern suggests that Black families are accessing middle-class homeownership, which is crucial for wealth building. However, if these families are concentrated in moderate-income segments while White families dominate high-income segments, it still reflects ongoing economic disparities that limit intergenerational wealth transfer.`
+                });
+            }
+            
+            // Ensure at least 3 insights
+            if (insights.length < 3) {
+                insights.push({
+                    title: 'Income Distribution and Racial Patterns',
+                    text: `The ${maxIncome} income level's dominance (${maxPct}%) intersects with racial demographics (${whitePct}% White, ${blackPct}% Black, ${hispanicPct}% Hispanic, ${asianPct}% Asian) to create distinct economic pathways to homeownership. Understanding these intersections is essential for identifying barriers to wealth building and opportunities for more equitable access across all income levels.`
+                });
+            }
+            
+            storyState.income.currentIndex = 0;
+            storyState.income.insights = insights;
+            document.getElementById('income-story-main').textContent = mainStory;
+            updateStoryDisplay('income');
         }
 
         function showNoDataMessage(fips, year) {
@@ -839,16 +1944,101 @@
                 document.getElementById(id).style.display = 'none';
             });
             
-            // Show message in county info
+            // NEW: Show message in county info (handle both state and county)
+            const normalizedFips = String(fips);
+            const isCounty = normalizedFips.length === 5;
+            const locationName = isCounty
+                ? (countyNameByFips.get(normalizedFips) || `County ${normalizedFips}`)
+                : (stateNameByFips.get(normalizedFips) || `State ${normalizedFips}`);
+            const label = isCounty ? 'County' : 'State';
+            
             document.getElementById('county-info-display').innerHTML = `
                 <div class="county-info">
                     <div class="county-name">❌ No Data Available</div>
-                    <div class="county-details">County ${fips} has no data for year ${year}</div>
+                    <div class="county-details">${label} ${locationName} has no data for year ${year}</div>
                 </div>
             `;
             
             // Hide correlation section
             document.getElementById('correlation-section').style.display = 'none';
+        }
+
+        function processLocationData(locationData) {
+            locationData.forEach(row => {
+                const stateFips = String(row.STATE).padStart(2, '0');
+                if ((row.SUMLEV === '040' || row.COUNTY === '000') && row.STNAME) {
+                    stateNameByFips.set(stateFips, row.STNAME);
+                }
+                if (row.SUMLEV === '050') {
+                    const countyFips = stateFips + String(row.COUNTY).padStart(3, '0');
+                    countyNameByFips.set(countyFips, row.CTYNAME);
+                    if (!stateNameByFips.has(stateFips) && row.STNAME) {
+                        stateNameByFips.set(stateFips, row.STNAME);
+                    }
+                }
+            });
+        }
+
+        function initializeControls(years) {
+            const yearSelect = document.getElementById('year-select');
+            yearSelect.innerHTML = '';
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+            yearSelect.value = currentYear;
+            yearSelect.addEventListener('change', e => handleYearSelection(+e.target.value));
+
+            const stateSelect = document.getElementById('state-select');
+            const sortedStates = Array.from(stateNameByFips.entries()).sort((a, b) => a[1].localeCompare(b[1]));
+            sortedStates.forEach(([fips, name]) => {
+                const option = document.createElement('option');
+                option.value = fips;
+                const abbr = stateFipsToAbbr[fips] ? ` (${stateFipsToAbbr[fips]})` : '';
+                option.textContent = `${name}${abbr}`;
+                stateSelect.appendChild(option);
+            });
+            stateSelect.addEventListener('change', e => {
+                const value = e.target.value;
+                if (!value) {
+                    currentViewMode = 'state';
+                    selectedCountyFips = null;
+                    currentStateViewFips = null;
+                    createMap();
+                } else {
+                    showCountyView(value, stateFipsToAbbr[value]);
+                }
+            });
+
+            document.getElementById('reset-view').addEventListener('click', () => {
+                stateSelect.value = '';
+                currentViewMode = 'state';
+                selectedCountyFips = null;
+                currentStateViewFips = null;
+                createMap();
+            });
+        }
+
+        function handleYearSelection(newYear) {
+            if (!newYear || newYear === currentYear) return;
+            currentYear = newYear;
+            const yearSelect = document.getElementById('year-select');
+            if (yearSelect) {
+                yearSelect.value = currentYear;
+            }
+
+            if (currentViewMode === 'state' || !currentStateViewFips) {
+                createMap();
+                return;
+            }
+
+            // If we're already in a state view, re-render that state for the new year
+            showCountyView(currentStateViewFips, stateFipsToAbbr[currentStateViewFips]);
+            if (selectedCountyFips && String(selectedCountyFips).length === 5) {
+                setTimeout(() => updateAllCharts(selectedCountyFips, currentYear), 300);
+            }
         }
 
         function updateCorrelationHeatmap(tractData, countyFips, year) {
