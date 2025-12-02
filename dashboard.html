@@ -214,15 +214,22 @@
                 });
             });
 
-            // Process tract data by year
+           // Process tract data by year
             const years = [2018, 2019, 2020, 2021, 2022, 2023];
             tractDataArrays.forEach((tractData, idx) => {
                 const year = years[idx];
-                tractDataByYear.set(year, tractData.map(d => ({
-                    ...d,
-                    county_fips: d.geo2010.substring(0, 5),
-                    year: year
-                })));
+                
+                // We filter out bad data FIRST, then map it
+                const cleanData = tractData
+                    .filter(d => d.geo2010) // Only keep rows where geo2010 exists
+                    .map(d => ({
+                        ...d,
+                        // Safe extraction: if d.geo2010 is somehow not a string, convert it to one
+                        county_fips: String(d.geo2010).substring(0, 5),
+                        year: year
+                    }));
+
+                tractDataByYear.set(year, cleanData);
             });
 
             // Create initial map
