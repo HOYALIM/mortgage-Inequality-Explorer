@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Two Counties, Two Realities - Mortgage Inequality Explorer</title>
+    <title>Mortgage Inequality Explorer</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
@@ -25,766 +25,141 @@
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
-        /* Map Section (Selector) */
+        /* Map Section */
         .selector-section {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
+            background: white; border-radius: 15px; padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 40px;
         }
 
-        .header-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .header-subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--bg-light);
-            border-radius: 10px;
-            align-items: center;
-        }
-
-        select {
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-        }
+        .header-title { text-align: center; font-size: 2.2rem; margin-bottom: 10px; color: var(--primary); font-weight: 700; }
+        .header-subtitle { text-align: center; color: #7f8c8d; margin-bottom: 30px; }
+        .controls { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; padding: 15px; background: var(--bg-light); border-radius: 10px; align-items: center; }
+        select { padding: 10px 15px; border-radius: 8px; border: 1px solid #ddd; font-size: 16px; }
 
         /* Story Section Structure */
-        #story-container {
-            display: none; /* Hidden until loaded */
-            animation: fadeIn 0.8s ease-out;
-        }
-
+        #story-container { display: none; animation: fadeIn 0.8s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .story-section {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 50px;
-            align-items: start;
-        }
+        .story-section { background: white; border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 5px 25px rgba(0,0,0,0.05); display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: start; }
+        .story-section.full-width { grid-template-columns: 1fr; }
 
-        .story-section.full-width {
-            grid-template-columns: 1fr;
-        }
-
-        /* Text Slider (The Analysis Feature) */
-        .text-slider {
-            position: relative;
-            min-height: 350px;
-        }
-
-        .slide {
-            display: none;
-            animation: fadeText 0.5s ease-in-out;
-        }
-        
+        /* Text Slider */
+        .text-slider { position: relative; min-height: 350px; }
+        .slide { display: none; animation: fadeText 0.5s ease-in-out; }
         .slide.active { display: block; }
-
         @keyframes fadeText { from { opacity: 0; } to { opacity: 1; } }
 
-        .section-label {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            color: var(--accent);
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            color: var(--primary);
-        }
-
-        .statement {
-            font-size: 1.05rem;
-            color: #444;
-            margin-bottom: 25px;
-            line-height: 1.7;
-        }
-
-        .statements {
-            font-size: 1.1rem;
-            color: #444;
-            margin-bottom: 25px;
-            border-left: 4px solid var(--accent);
-            padding-left: 20px;
-        }
-
-        .soft-question {
-            background: linear-gradient(to right, #eef2f3, #e8e9eb);
-            padding: 20px;
-            border-radius: 12px;
-            font-style: italic;
-            color: var(--primary);
-            font-weight: 500;
-            border-left: 4px solid var(--accent);
-        }
+        .section-label { text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; color: var(--accent); font-weight: bold; margin-bottom: 10px; display: block; }
+        .section-title { font-size: 1.8rem; margin-bottom: 20px; line-height: 1.2; color: var(--primary); }
+        .statement { font-size: 1.05rem; color: #444; margin-bottom: 25px; line-height: 1.7; }
+        .statements { font-size: 1.1rem; color: #444; margin-bottom: 25px; border-left: 4px solid var(--accent); padding-left: 20px; }
+        .soft-question { background: linear-gradient(to right, #eef2f3, #e8e9eb); padding: 20px; border-radius: 12px; font-style: italic; color: var(--primary); font-weight: 500; border-left: 4px solid var(--accent); margin-top: 20px; }
 
         /* Analysis Box Style */
-        .analysis-box {
-            background: #f0f7ff;
-            border-left: 6px solid var(--target-color);
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 10px;
-        }
-        
-        .analysis-highlight {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--highlight);
-            margin-bottom: 15px;
-            display: block;
-        }
+        .analysis-box { background: #f0f7ff; border-left: 6px solid var(--target-color); padding: 25px; border-radius: 12px; margin-top: 10px; }
+        .analysis-highlight { font-size: 1.2rem; font-weight: bold; color: var(--highlight); margin-bottom: 15px; display: block; }
+        .analysis-text { font-size: 1.1rem; color: #34495e; line-height: 1.8; }
 
-        .analysis-text {
-            font-size: 1.1rem;
-            color: #34495e;
-            line-height: 1.8;
-        }
-
-        /* Navigation Controls */
-        .nav-controls {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-        }
-
-        .nav-btn {
-            background: white;
-            border: 2px solid #eee;
-            color: #7f8c8d;
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
+        .nav-controls { margin-top: 25px; display: flex; gap: 15px; border-top: 1px solid #eee; padding-top: 20px; }
+        .nav-btn { background: white; border: 2px solid #eee; color: #7f8c8d; padding: 8px 20px; border-radius: 25px; cursor: pointer; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; gap: 5px; }
         .nav-btn:hover { background: #f8f9fa; border-color: #ddd; }
-        .nav-btn.active { 
-            background: var(--accent); 
-            border-color: var(--accent); 
-            color: white; 
-            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
-        }
+        .nav-btn.active { background: var(--accent); border-color: var(--accent); color: white; box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3); }
 
-        .chart-container {
-            background: white;
-            border-radius: 15px;
-            padding: 10px;
-            min-height: 400px;
-            position: relative;
-        }
-
-        .interaction-panel {
-            background: var(--bg-light);
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .interaction-panel h4 {
-            margin-bottom: 10px;
-            font-size: 1rem;
-            color: var(--primary);
-        }
-
-        .interaction-panel label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .interaction-panel input,
-        .interaction-panel select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .feedback-text {
-            font-size: 0.95rem;
-            color: #374151;
-            background: #f9fafb;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border-left: 4px solid var(--accent);
-        }
+        .chart-container { background: white; border-radius: 15px; padding: 10px; min-height: 400px; position: relative; }
+        .interaction-panel { background: var(--bg-light); border: 1px solid #e5e7eb; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        .interaction-panel h4 { margin-bottom: 10px; font-size: 1rem; color: var(--primary); }
+        .interaction-panel label { font-weight: bold; display: block; margin-bottom: 6px; }
+        .interaction-panel select { width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 10px; margin-bottom: 8px; font-size: 0.95rem; }
 
         /* Hero Stats */
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin: 40px 0;
-            text-align: center;
-        }
-
+        .hero-stats { display: flex; justify-content: center; gap: 60px; margin: 40px 0; text-align: center; }
         .stat-box h3 { font-size: 3rem; color: var(--highlight); margin-bottom: 5px; }
         .stat-box p { color: #7f8c8d; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
 
-        /* Sources */
-        .sources-section {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 40px;
-            border-radius: 15px;
-            margin-top: 50px;
-        }
-        .sources-section h3 { border-bottom: 1px solid #7f8c8d; padding-bottom: 10px; margin-bottom: 20px; }
-        .sources-section p { margin-bottom: 15px; font-size: 0.95rem; opacity: 0.9; }
-        .sources-section ul { margin-left: 20px; margin-bottom: 20px; opacity: 0.9; font-size: 0.95rem; }
-
         /* Loading */
         #loading { text-align: center; padding: 50px; }
-        .spinner {
-            border: 4px solid #f3f3f3; border-top: 4px solid var(--accent);
-            border-radius: 50%; width: 50px; height: 50px;
-            animation: spin 1s linear infinite; margin: 0 auto 20px;
-        }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Utility */
         .highlight-text { color: var(--highlight); font-weight: bold; }
         .county-name-target { font-weight: bold; color: var(--target-color); }
-        .btn-toggle {
-            background: var(--accent); color: white; border: none; padding: 10px 20px;
-            border-radius: 20px; cursor: pointer; font-weight: bold; margin-top: 0;
-            transition: transform 0.2s;
-        }
+        .btn-toggle { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; margin-top: 0; transition: transform 0.2s; }
         .btn-toggle:hover { transform: scale(1.05); }
         .btn-back { background: #e74c3c; color: white; }
-        
         .map-breadcrumb { text-align: center; margin-bottom: 15px; font-weight: bold; color: var(--accent); }
-
-        .custom-legend { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 0.9rem; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-
-        /* Hook Section Styles */
-        .hook-container {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-            overflow: hidden;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .hook-slides {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100vh;
-        }
-
-        .hook-slide {
-            min-width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 60px 40px;
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-
-        .hook-slide.and {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .hook-slide.but {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        }
-
-        .hook-slide.therefore {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .hook-slide.takeaway {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        }
-
-        .hook-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hook-label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            opacity: 0.8;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .hook-title {
-            font-size: 4.2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            line-height: 1.3;
-            min-height: 1.2em;
-        }
-
-        .but-word {
-            display: inline-block;
-            margin-right: 20px;
-            color: #ffd700;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .hook-text {
-            font-size: 1.68rem;
-            line-height: 1.8;
-            opacity: 0.95;
-            margin-bottom: 40px;
-        }
-
-        /* Typing Effect */
-        .typing-text {
-            display: inline-block;
-        }
-
-        .typing-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1.2em;
-            background: white;
-            margin-left: 5px;
-            animation: blink 1s infinite;
-            vertical-align: baseline;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        /* Stat Card Highlight Animation */
-        .stat-card.highlight {
-            animation: pulseHighlight 2s ease-in-out infinite;
-        }
-
-        @keyframes pulseHighlight {
-            0%, 100% {
-                transform: translateY(-10px) scale(1.05);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            }
-            50% {
-                transform: translateY(-15px) scale(1.1);
-                box-shadow: 0 25px 50px rgba(255, 215, 0, 0.6);
-                border-color: #ffd700;
-            }
-        }
-
-        .hook-nav {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 1000;
-            font-size: 24px;
-            color: white;
-        }
-
-        .hook-nav:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .hook-nav.prev {
-            left: 30px;
-        }
-
-        .hook-nav.next {
-            right: 30px;
-        }
-
-        .hook-nav:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .hook-dots {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            z-index: 1000;
-        }
-
-        .hook-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .hook-dot.active {
-            background: white;
-            width: 30px;
-            border-radius: 6px;
-        }
-
-        /* Number Cards in BUT Section */
-        .stat-cards {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 50px;
-            flex-wrap: nowrap;
-            align-items: stretch;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 40px 30px;
-            min-width: 280px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .stat-card:hover::before {
-            left: 100%;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-card.active {
-            transform: translateY(-15px) scale(1.1);
-            background: rgba(255, 255, 255, 0.3);
-            border-color: white;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #ffd700;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            line-height: 1.5;
-            opacity: 0.95;
-        }
-
-        /* Visualization Modal */
-        .viz-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            animation: fadeIn 0.3s;
-        }
-
-        .viz-modal.active {
-            display: flex;
-        }
-
-        .viz-content {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 1040px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            animation: scaleIn 0.3s;
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .viz-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .viz-close:hover {
-            background: #c0392b;
-        }
-
-        .viz-chart {
-            width: 100%;
-            height: 520px;
-            margin-top: 20px;
-        }
-
-        .cta-button {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .skip-hook {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            z-index: 1001;
-            transition: all 0.3s;
-        }
-
-        .skip-hook:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Responsive Design for Hook Section */
-        @media (max-width: 1200px) {
-            .hook-content {
-                max-width: 100%;
-                padding: 0 60px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hook-content {
-                padding: 0 30px;
-            }
-
-            .hook-title {
-                font-size: 2.8rem;
-                line-height: 1.3;
-            }
-
-            .hook-text {
-                font-size: 1.3rem;
-                line-height: 1.7;
-            }
-
-            .stat-cards {
-                flex-direction: column;
-                align-items: center;
-                gap: 20px;
-            }
-
-            .stat-card {
-                min-width: 100%;
-                max-width: 400px;
-            }
-
-            .hook-nav {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
-
-            .hook-nav.prev {
-                left: 15px;
-            }
-
-            .hook-nav.next {
-                right: 15px;
-            }
-
-            .skip-hook {
-                top: 15px;
-                right: 15px;
-                padding: 10px 18px;
-                font-size: 0.8rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hook-content {
-                padding: 0 20px;
-            }
-
-            .hook-title {
-                font-size: 2.2rem;
-                margin-bottom: 20px;
-            }
-
-            .hook-text {
-                font-size: 1.1rem;
-                margin-bottom: 30px;
-            }
-
-            .stat-card {
-                padding: 30px 20px;
-            }
-
-            .stat-number {
-                font-size: 2.8rem;
-            }
-
-            .stat-label {
-                font-size: 1rem;
-            }
-
-            .cta-button {
-                padding: 15px 30px;
-                font-size: 1rem;
-            }
-        }
-
-        @media (min-width: 1400px) {
-            .hook-content {
-                max-width: 1400px;
-            }
-        }
+        
+        /* Hook Section */
+        .hook-container { position: relative; width: 100%; min-height: 100vh; overflow: hidden; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .hook-slides { display: flex; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); height: 100vh; }
+        .hook-slide { min-width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 40px; color: white; text-align: center; }
+        .hook-slide.and { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .hook-slide.but { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); }
+        .hook-slide.therefore { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .hook-slide.takeaway { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); }
+        .hook-content { max-width: 1200px; margin: 0 auto; animation: fadeInUp 0.8s ease-out; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hook-title { font-size: 4.2rem; font-weight: 700; margin-bottom: 30px; line-height: 1.3; min-height: 1.2em; }
+        .hook-text { font-size: 1.68rem; line-height: 1.8; opacity: 0.95; margin-bottom: 40px; }
+        
+        .but-word { display: inline-block; margin-right: 20px; color: #ffd700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+        .typing-cursor { display: inline-block; width: 3px; height: 1.2em; background: white; margin-left: 5px; animation: blink 1s infinite; vertical-align: baseline; }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+        .stat-cards { display: flex; gap: 30px; justify-content: center; margin-top: 50px; }
+        .stat-card { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 40px 30px; min-width: 250px; transition: all 0.4s; }
+        .stat-card.highlight { background: rgba(255, 255, 255, 0.25); border-color: #ffd700; transform: translateY(-10px) scale(1.05); box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3); }
+        .stat-number { font-size: 3rem; font-weight: 700; color: #ffd700; margin-bottom: 10px; }
+        .stat-label { font-size: 1rem; opacity: 0.9; }
+
+        .cta-button { background: white; color: #667eea; border: none; padding: 18px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+        .cta-button:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); }
+        .skip-hook { position: fixed; top: 30px; right: 30px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.3); color: white; padding: 12px 24px; border-radius: 25px; cursor: pointer; font-size: 0.9rem; z-index: 1001; }
+        
+        .hook-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.2); border: 2px solid rgba(255, 255, 255, 0.3); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; font-size: 24px; color: white; }
+        .hook-nav.prev { left: 30px; }
+        .hook-nav.next { right: 30px; }
+
+        /* --- SECTION 6: PERSONALIZED PROFILE STYLES --- */
+        .profile-card { background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 40px; margin-top: 20px; border: 1px solid #edf2f7; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .summary-input-group { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px 20px; transition: transform 0.2s, box-shadow 0.2s; }
+        .summary-input-group:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-color: var(--accent); }
+        .summary-input-group label { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; font-weight: 700; }
+        .summary-input-group input, .summary-input-group select { width: 100%; padding: 10px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; background: white; color: var(--primary); font-weight: 600; }
+        .summary-input-group input:focus, .summary-input-group select:focus { outline: none; border-color: var(--accent); }
+        
+        .personal-chart-container { border: 1px solid #e2e8f0; border-radius: 15px; padding: 25px; background: white; }
+        .chart-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9; }
+        .chart-header-row h3 { margin: 0; color: var(--primary); font-size: 1.4rem; }
+        .chart-selector { padding: 8px 16px; border-radius: 20px; border: 2px solid var(--accent); color: var(--primary); font-weight: 600; cursor: pointer; background: #fff; }
+
+        .personal-insight-box { background: linear-gradient(to right, #ffffff, #f8f9fa); border-left: 5px solid var(--highlight); border-radius: 0 10px 10px 0; padding: 25px; margin-top: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .personal-insight-title { color: var(--highlight); font-size: 1.3rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: block; letter-spacing: 0.5px; }
+        .personal-insight-text { color: #334155; font-size: 1.05rem; line-height: 1.7; }
+        .insight-highlight { font-weight: bold; color: #2c3e50; background: rgba(118, 75, 162, 0.1); padding: 0 4px; border-radius: 4px; }
+        
+        .closing-question { text-align: center; margin-top: 40px; font-style: italic; color: #64748b; font-size: 1.2rem; border-top: 1px solid #e2e8f0; padding-top: 30px; }
+
+        /* Sources Section */
+        .sources-section { background: #2c3e50; color: #ecf0f1; padding: 40px; border-radius: 15px; margin-top: 50px; }
+        .sources-section h3 { border-bottom: 1px solid #7f8c8d; padding-bottom: 10px; margin-bottom: 20px; }
+        .sources-section p { margin-bottom: 15px; font-size: 0.95rem; opacity: 0.9; }
     </style>
 </head>
 <body>
 
-<!-- Hook Section -->
 <div class="hook-container" id="hook-container">
     <button class="skip-hook" onclick="skipHook()">Skip to Dashboard →</button>
-    
     <div class="hook-slides" id="hook-slides">
-        <!-- Slide 1: AND -->
         <div class="hook-slide and" data-slide="0">
             <div class="hook-content">
                 <h1 class="hook-title">Owning a home is supposed to be simple.</h1>
-                <p class="hook-text">
-                    You find a place you love, you prove you can afford it,<br>
-                    and the bank applies the same rules to everyone.<br><br>
-                    <strong>That's how the mortgage system is supposed to work.</strong>
-                </p>
+                <p class="hook-text">You find a place, prove you can afford it, and the bank applies the rules. That's how it's supposed to work.</p>
             </div>
         </div>
-
-        <!-- Slide 2: BUT -->
         <div class="hook-slide but" data-slide="1">
             <div class="hook-content">
                 <h1 class="hook-title">
@@ -795,99 +170,46 @@
                     Across U.S. counties, loan approvals and amounts shift dramatically<br>
                     with race, income, and age — even when families look similar on paper.
                 </p>
-                
                 <div class="stat-cards" id="stat-cards" style="opacity: 0;">
-                    <div class="stat-card" data-stat="gap" onclick="showViz('gap')">
-                        <div class="stat-number">30%</div>
-                        <div class="stat-label">White vs Black<br>homeownership gap</div>
-                    </div>
-                    <div class="stat-card" data-stat="denial" onclick="showViz('denial')">
-                        <div class="stat-number">2.5x</div>
-                        <div class="stat-label">Higher denial rates<br>for Black & Hispanic borrowers</div>
-                    </div>
-                    <div class="stat-card" data-stat="debt" onclick="showViz('debt')">
-                        <div class="stat-number">$13T+</div>
-                        <div class="stat-label">Mortgage debt —<br>largest U.S. household debt</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-number">30%</div><div class="stat-label">White vs Black<br>homeownership gap</div></div>
+                    <div class="stat-card"><div class="stat-number">2.5x</div><div class="stat-label">Higher denial rates<br>for Black & Hispanic borrowers</div></div>
+                    <div class="stat-card"><div class="stat-number">$13T+</div><div class="stat-label">Mortgage debt —<br>largest U.S. household debt</div></div>
                 </div>
             </div>
         </div>
-
-        <!-- Slide 3: THEREFORE -->
         <div class="hook-slide therefore" data-slide="2">
             <div class="hook-content">
-                <h1 class="hook-title">Therefore, we built the Mortgage Inequality Explorer.</h1>
-                <p class="hook-text">
-                    This explorable map lets you zoom into any U.S. county and see<br>
-                    who gets mortgage dollars — and who doesn't — by race, income, and age from 2018–2023.
-                </p>
+                <h1 class="hook-title">Therefore, the Mortgage Explorer.</h1>
+                <p class="hook-text">Zoom into any U.S. county to see who gets mortgage dollars and who doesn't.</p>
             </div>
         </div>
-
-        <!-- Slide 4: TAKEAWAY -->
         <div class="hook-slide takeaway" data-slide="3">
             <div class="hook-content">
-                <h1 class="hook-title">The numbers tell a story of inequality.</h1>
-                <p class="hook-text" style="font-size: 1.6rem; line-height: 1.8;">
-                    Behind every mortgage approval or denial, there's a pattern.<br>
-                    Some communities face barriers that others don't.<br><br>
-                    <strong>Explore the data. See the patterns. Understand the reality.</strong>
-                </p>
+                <h1 class="hook-title">The numbers tell a story.</h1>
+                <p class="hook-text">Explore the data. See the patterns. Understand the reality.</p>
                 <button class="cta-button" onclick="skipHook()">Start Exploring →</button>
             </div>
         </div>
     </div>
-
-    <!-- Navigation Arrows -->
     <button class="hook-nav prev" id="prev-btn" onclick="changeSlide(-1)">←</button>
     <button class="hook-nav next" id="next-btn" onclick="changeSlide(1)">→</button>
-
-    <!-- Dots Indicator -->
-    <div class="hook-dots">
-        <div class="hook-dot active" onclick="goToSlide(0)"></div>
-        <div class="hook-dot" onclick="goToSlide(1)"></div>
-        <div class="hook-dot" onclick="goToSlide(2)"></div>
-        <div class="hook-dot" onclick="goToSlide(3)"></div>
-    </div>
-</div>
-
-<!-- Visualization Modal -->
-<div class="viz-modal" id="viz-modal">
-    <div class="viz-content">
-        <button class="viz-close" onclick="closeViz()">×</button>
-        <h2 id="viz-title" style="margin-bottom: 20px; color: #2c3e50;"></h2>
-        <p id="viz-description" style="color: #7f8c8d; margin-bottom: 20px;"></p>
-        <div class="viz-chart" id="viz-chart"></div>
-    </div>
 </div>
 
 <div class="container" id="main-dashboard" style="display: none;">
     <div class="selector-section">
-        <h1 class="header-title">Two Counties, Two Realities.<br>How Mortgage Outcomes Differ from <span class="county-name-target highlight-text"></span> to San Diego, CA?</h1>
-        <p class="header-subtitle">Interactive Analysis: Select a State, then a County to compare</p>
+        <h1 class="header-title">Two Counties, Two Realities.<br>Compare <span class="county-name-target highlight-text">Your Selected County</span> to San Diego, CA</h1>
+        <p class="header-subtitle">Interactive Analysis: Select a State, then a County to begin.</p>
         
         <div class="controls">
-            <div>
-                <label><strong>Year:</strong></label>
-                <select id="year-select"></select>
-            </div>
-            <div>
-                <label><strong>State:</strong></label>
-                <select id="state-select">
-                    <option value="">-- Select a State --</option>
-                </select>
-            </div>
+            <div><label><strong>Year:</strong></label><select id="year-select"></select></div>
+            <div><label><strong>State:</strong></label><select id="state-select"><option value="">-- Select a State --</option></select></div>
             <button class="btn-toggle btn-back" id="back-btn" onclick="resetToUSA()" style="display:none;">← Back to USA</button>
         </div>
 
-        <div id="loading">
-            <div class="spinner"></div>
-            <p>Loading Data (2018-2023)...</p>
-        </div>
-
+        <div id="loading"><div class="spinner"></div><p>Loading Data (2018-2023)...</p></div>
         <div class="map-breadcrumb" id="map-status">Viewing: United States</div>
         <div id="map-container" style="height: 500px;"></div>
-        <p id="map-instruction" style="text-align: center; color: #7f8c8d; margin-top: 10px;">👆 Click on any State to drill down to counties.</p>
+        <p id="map-instruction" style="text-align: center; color: #7f8c8d; margin-top: 10px; font-weight: bold;">👆 Start by clicking on any State above.</p>
     </div>
 
     <div id="story-container">
@@ -895,28 +217,16 @@
         <div class="story-section full-width">
             <div style="text-align: center; max-width: 900px; margin: 0 auto;">
                 <span class="section-label">Section 0 — Intro</span>
-                <h2 class="section-title" style="font-size: 2.5rem;">Two Counties, Two Realities.<br>How Mortgage Outcomes Differ from <span class="county-name-target highlight-text"></span> to San Diego, CA?</h2>
-                
+                <h2 class="section-title">Two Counties, Two Realities.<br>How Mortgage Outcomes Differ from <span class="county-name-target highlight-text"></span> to San Diego, CA?</h2>
                 <div class="statements">
-                        <strong>Is the opportunity for homeownership fairly distributed where you live?</strong><br>
-                        Buying a home does not look the same everywhere. Even inside one state, the mortgage experience
-                        can change sharply from one county to the next. The people who apply, the homes they pursue, and
-                        the income groups that show up in the market all shape how accessible homeownership feels.
-                    </div>
-
-                <div class="hero-stats">
-                    <div class="stat-box">
-                        <h3 id="hero-target-stat">--%</h3>
-                        <p>Minority Share<br><span class="county-name-target"></span></p>
-                    </div>
-                    <div class="stat-box">
-                        <h3 id="hero-sd-stat">--%</h3>
-                        <p>Minority Share<br>San Diego County</p>
-                    </div>
+                    <strong>Is the opportunity for homeownership fairly distributed where you live?</strong><br>
+                    Buying a home does not look the same everywhere. Even inside one state, the mortgage experience
+                    can change sharply from one county to the next. The people who apply, the homes they pursue, and
+                    the income groups that show up in the market all shape how accessible homeownership feels.
                 </div>
-
-                <div class="statement" style="text-align: center; margin-bottom: 0;">
-                    Before we compare San Diego County to <span class="county-name-target"></span>, we pause with one guiding question:
+                <div class="hero-stats">
+                    <div class="stat-box"><h3 id="hero-target-stat">--%</h3><p>Minority Share<br><span class="county-name-target"></span></p></div>
+                    <div class="stat-box"><h3 id="hero-sd-stat">--%</h3><p>Minority Share<br>San Diego County</p></div>
                 </div>
                 <div class="soft-question" style="text-align: center; border-left: none; border-top: 4px solid var(--accent); margin-top: 20px;">
                     Who is entering the mortgage market here, and what early patterns can we already see?
@@ -929,39 +239,19 @@
                 <div class="slide slide-1 active">
                     <span class="section-label">Section 1 — Loan Amount Distribution</span>
                     <h2 class="section-title">The Price of Entry</h2>
-                    <div class="statement">
-                        The first view focuses on loan amounts in <span class="county-name-target"></span>. This tells us the price range most buyers operate in. Lower amounts hint at more affordable markets. Higher amounts suggest that even entry level homes sit at a higher price point. These clusters help define the economic landscape local buyers navigate.
-                    </div>
-                    <div class="soft-question">
-                        As you scroll, do the loan patterns in <span class="county-name-target"></span> feel more expensive, more affordable, or more balanced compared to San Diego County?
-                    </div>
+                    <div class="statement">The first view focuses on loan amounts in <span class="county-name-target"></span>. This tells us the price range most buyers operate in. Lower amounts hint at more affordable markets. Higher amounts suggest that even entry level homes sit at a higher price point.</div>
                 </div>
                 <div class="slide slide-2">
                     <span class="section-label">Section 1 — Analysis</span>
                     <h2 class="section-title">The Story Behind the Numbers</h2>
-                    <div class="analysis-box">
-                        <span class="analysis-highlight" id="analysis-loan-highlight">Loading Analysis...</span>
-                        <p class="analysis-text" id="analysis-loan-text"></p>
-                    </div>
+                    <div class="analysis-box"><span class="analysis-highlight" id="analysis-loan-highlight">Loading...</span><p class="analysis-text" id="analysis-loan-text"></p></div>
                 </div>
                 <div class="nav-controls">
                     <button class="nav-btn active" onclick="switchSlide('section-loan', 1)">1. Overview</button>
                     <button class="nav-btn" onclick="switchSlide('section-loan', 2)">2. Explore Analysis →</button>
                 </div>
             </div>
-            <div class="chart-container">
-                <div class="interaction-panel">
-                    <h4>Try your credit score</h4>
-                    <label for="loan-credit-input">Enter your credit score (300-850)</label>
-                    <input type="number" id="loan-credit-input" min="300" max="850" placeholder="e.g., 710">
-                    <p class="feedback-text" id="loan-feedback">Enter a credit score to see where your borrowing power fits across both counties.</p>
-                </div>
-                <div class="custom-legend">
-                    <div class="legend-item"><div class="dot" style="background:var(--target-color)"></div><span class="county-name-target"></span></div>
-                    <div class="legend-item"><div class="dot" style="background:var(--sd-color)"></div>San Diego</div>
-                </div>
-                <div id="chart-loan"></div>
-            </div>
+            <div class="chart-container"><div id="chart-loan"></div></div>
         </div>
 
         <div class="story-section" id="section-age">
@@ -969,39 +259,19 @@
                 <div class="slide slide-1 active">
                     <span class="section-label">Section 2 — Age Distribution</span>
                     <h2 class="section-title">Generational Access</h2>
-                    <div class="statement">
-                        Now we look at borrower age. Age distribution shows which life stages drive the mortgage market in <span class="county-name-target"></span>. Younger adults might signal starter home activity. Mid-career buyers often shape the core of the market. Older households may point to refinancing or later home transitions.
-                    </div>
-                    <div class="soft-question">
-                        Does the age mix resemble San Diego, or does one county lean toward a different stage of life?
-                    </div>
+                    <div class="statement">Now we look at borrower age. Age distribution shows which life stages drive the mortgage market in <span class="county-name-target"></span>. Younger adults might signal starter home activity. Mid-career buyers often shape the core of the market.</div>
                 </div>
                 <div class="slide slide-2">
                     <span class="section-label">Section 2 — Analysis</span>
                     <h2 class="section-title">The Story Behind the Numbers</h2>
-                    <div class="analysis-box">
-                        <span class="analysis-highlight" id="analysis-age-highlight">Loading Analysis...</span>
-                        <p class="analysis-text" id="analysis-age-text"></p>
-                    </div>
+                    <div class="analysis-box"><span class="analysis-highlight" id="analysis-age-highlight">Loading...</span><p class="analysis-text" id="analysis-age-text"></p></div>
                 </div>
                 <div class="nav-controls">
                     <button class="nav-btn active" onclick="switchSlide('section-age', 1)">1. Overview</button>
                     <button class="nav-btn" onclick="switchSlide('section-age', 2)">2. Explore Analysis →</button>
                 </div>
             </div>
-            <div class="chart-container">
-                <div class="interaction-panel">
-                    <h4>Enter your age</h4>
-                    <label for="age-input">How old are you?</label>
-                    <input type="number" id="age-input" min="18" max="100" placeholder="e.g., 32">
-                    <p class="feedback-text" id="age-feedback">Tell us your age to highlight where you sit in each county's borrower mix.</p>
-                </div>
-                <div class="custom-legend">
-                    <div class="legend-item"><div class="dot" style="background:var(--target-color)"></div><span class="county-name-target"></span></div>
-                    <div class="legend-item"><div class="dot" style="background:var(--sd-color)"></div>San Diego</div>
-                </div>
-                <div id="chart-age"></div>
-            </div>
+            <div class="chart-container"><div id="chart-age"></div></div>
         </div>
 
         <div class="story-section" id="section-race">
@@ -1009,44 +279,19 @@
                 <div class="slide slide-1 active">
                     <span class="section-label">Section 3 — Race & Ethnicity</span>
                     <h2 class="section-title">Who Gets the Loan?</h2>
-                    <div class="statement">
-                        Next, we explore the racial and ethnic composition of borrowers in <span class="county-name-target"></span>. This view helps us understand who participates most in the mortgage process. It also highlights demographic differences that may shape access, opportunity, and the overall borrower landscape.
-                    </div>
-                    <div class="soft-question">
-                        When the proportions shift between <span class="county-name-target"></span> and San Diego, which differences stand out the most?
-                    </div>
+                    <div class="statement">Next, we explore the racial and ethnic composition of borrowers in <span class="county-name-target"></span>. This view helps us understand who participates most in the mortgage process.</div>
                 </div>
                 <div class="slide slide-2">
                     <span class="section-label">Section 3 — Analysis</span>
                     <h2 class="section-title">The Story Behind the Numbers</h2>
-                    <div class="analysis-box">
-                        <span class="analysis-highlight" id="analysis-race-highlight">Loading Analysis...</span>
-                        <p class="analysis-text" id="analysis-race-text"></p>
-                    </div>
+                    <div class="analysis-box"><span class="analysis-highlight" id="analysis-race-highlight">Loading...</span><p class="analysis-text" id="analysis-race-text"></p></div>
                 </div>
                 <div class="nav-controls">
                     <button class="nav-btn active" onclick="switchSlide('section-race', 1)">1. Overview</button>
                     <button class="nav-btn" onclick="switchSlide('section-race', 2)">2. Explore Analysis →</button>
                 </div>
             </div>
-            <div class="chart-container">
-                <div class="interaction-panel">
-                    <h4>Select your race/ethnicity</h4>
-                    <label for="race-select">Choose the group you identify with</label>
-                    <select id="race-select">
-                        <option value="White">White</option>
-                        <option value="African American">African American</option>
-                        <option value="Hispanic">Hispanic</option>
-                        <option value="Asian">Asian</option>
-                    </select>
-                    <p class="feedback-text" id="race-feedback">Pick a group to see how its share compares between the two counties.</p>
-                </div>
-                <div class="custom-legend">
-                    <div class="legend-item"><div class="dot" style="background:var(--target-color)"></div><span class="county-name-target"></span></div>
-                    <div class="legend-item"><div class="dot" style="background:var(--sd-color)"></div>San Diego</div>
-                </div>
-                <div id="chart-race"></div>
-            </div>
+            <div class="chart-container"><div id="chart-race"></div></div>
         </div>
 
         <div class="story-section" id="section-income">
@@ -1054,39 +299,19 @@
                 <div class="slide slide-1 active">
                     <span class="section-label">Section 4 — Income Level</span>
                     <h2 class="section-title">Affordability Barriers</h2>
-                    <div class="statement">
-                        Income levels offer another layer of context. They show which income groups are most active in <span class="county-name-target"></span> and how affordability filters who can pursue a mortgage. Some counties have broad representation across income tiers. Others skew toward a narrow band of households.
-                    </div>
-                    <div class="soft-question">
-                        How does the income landscape in <span class="county-name-target"></span> line up with the income patterns you see in San Diego County?
-                    </div>
+                    <div class="statement">Income levels offer another layer of context. They show which income groups are most active in <span class="county-name-target"></span> and how affordability filters who can pursue a mortgage.</div>
                 </div>
                 <div class="slide slide-2">
                     <span class="section-label">Section 4 — Analysis</span>
                     <h2 class="section-title">The Story Behind the Numbers</h2>
-                    <div class="analysis-box">
-                        <span class="analysis-highlight" id="analysis-income-highlight">Loading Analysis...</span>
-                        <p class="analysis-text" id="analysis-income-text"></p>
-                    </div>
+                    <div class="analysis-box"><span class="analysis-highlight" id="analysis-income-highlight">Loading...</span><p class="analysis-text" id="analysis-income-text"></p></div>
                 </div>
                 <div class="nav-controls">
                     <button class="nav-btn active" onclick="switchSlide('section-income', 1)">1. Overview</button>
                     <button class="nav-btn" onclick="switchSlide('section-income', 2)">2. Explore Analysis →</button>
                 </div>
             </div>
-            <div class="chart-container">
-                <div class="interaction-panel">
-                    <h4>Estimate your household income</h4>
-                    <label for="income-input">Annual household income (USD)</label>
-                    <input type="number" id="income-input" min="10000" step="5000" placeholder="e.g., 85000">
-                    <p class="feedback-text" id="income-feedback">Enter your income to see which affordability band you align with in both counties.</p>
-                </div>
-                <div class="custom-legend">
-                    <div class="legend-item"><div class="dot" style="background:var(--target-color)"></div><span class="county-name-target"></span></div>
-                    <div class="legend-item"><div class="dot" style="background:var(--sd-color)"></div>San Diego</div>
-                </div>
-                <div id="chart-income"></div>
-            </div>
+            <div class="chart-container"><div id="chart-income"></div></div>
         </div>
 
         <div class="story-section">
@@ -1094,48 +319,57 @@
                 <span class="section-label">Section 5 — Race × Income Heatmap</span>
                 <h2 class="section-title">The Intersection</h2>
                 <div class="statement">
-                    The race and income heatmap brings the story together. It shows which racial groups are concentrated in which income levels and how these combinations shape real borrowing behavior. This produces a deeper look at patterns that do not show up when race and income are viewed separately.
+                    The race and income heatmap brings the story together. It shows which racial groups are concentrated in which income levels.
+                    <br><br>
+                    <span id="heatmap-status" style="font-weight:bold; color:var(--target-color);">Viewing: <span class="county-name-target"></span></span>
+                    <br>
+                    <button class="btn-toggle" onclick="toggleHeatmap()" style="margin-top:10px;">Swap View ⇄</button>
                 </div>
-                <div class="soft-question">
-                    As this heatmap transitions to San Diego County, which race income combinations shift the most?
-                </div>
-                <div class="interaction-panel">
-                    <h4>Personalize the intersection</h4>
-                    <label for="heatmap-race-select">Race/Ethnicity</label>
-                    <select id="heatmap-race-select">
-                        <option value="White">White</option>
-                        <option value="African American">African American</option>
-                        <option value="Hispanic">Hispanic</option>
-                        <option value="Asian">Asian</option>
-                    </select>
-                    <label for="heatmap-income-select">Income level</label>
-                    <select id="heatmap-income-select">
-                        <option value="Very Low">Very Low</option>
-                        <option value="Low">Low</option>
-                        <option value="Moderate">Moderate</option>
-                        <option value="High">High</option>
-                    </select>
-                    <p class="feedback-text" id="heatmap-feedback">Choose a race and income level to spotlight your position on the heatmap.</p>
-                </div>
-                <div style="margin-top: 20px; text-align: center;">
-                    <p id="heatmap-status" style="margin-bottom: 5px; font-weight: bold;">Currently Viewing: <span class="county-name-target"></span></p>
-                    <button class="btn-toggle" onclick="toggleHeatmap()">Swap View ⇄</button>
+                <div class="analysis-box" style="margin-top: 20px;">
+                    <span class="analysis-highlight">Intersectionality</span>
+                    <p class="analysis-text">This heatmap reveals how race and income interact. Even within the same income bracket, racial disparities often persist in loan volume.</p>
                 </div>
             </div>
-            <div class="chart-container">
-                <div id="chart-heatmap"></div>
+            <div class="chart-container"><div id="chart-heatmap"></div></div>
+        </div>
+
+        <div class="story-section full-width" id="section-summary" style="background: linear-gradient(to bottom, #fff, #f8fafc); padding-top: 50px;">
+            <div style="max-width: 1100px; margin: 0 auto;">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <span class="section-label">Section 6 — Your Personal Profile</span>
+                    <h2 class="section-title">Where Do You Stand?</h2>
+                    <p style="color: #64748b; font-size: 1.1rem;">Enter your info below to see your consolidated market position in <span class="county-name-target"></span> vs San Diego.</p>
+                </div>
+                <div class="profile-card">
+                    <div class="summary-grid">
+                        <div class="summary-input-group"><label>Credit Score</label><input type="number" id="summary-credit" placeholder="e.g. 759"></div>
+                        <div class="summary-input-group"><label>Age</label><input type="number" id="summary-age" placeholder="e.g. 35"></div>
+                        <div class="summary-input-group"><label>Race/Ethnicity</label><select id="summary-race"><option value="White">White</option><option value="African American">African American</option><option value="Hispanic">Hispanic</option><option value="Asian">Asian</option></select></div>
+                        <div class="summary-input-group"><label>Income ($)</label><input type="number" id="summary-income" placeholder="e.g. 75000"></div>
+                    </div>
+                    <div class="personal-chart-container">
+                        <div class="chart-header-row">
+                            <h3>Your Market Position</h3>
+                            <div><label style="margin-right: 10px; font-weight: bold; color: #64748b;">Select Graph:</label><select id="personal-chart-select" class="chart-selector"><option value="loan">Loan Amount Distribution</option><option value="age">Age Distribution</option><option value="race">Race Demographics</option><option value="income">Income Levels</option><option value="heatmap">Race x Income Heatmap</option></select></div>
+                        </div>
+                        <div id="chart-personal" style="height: 400px;"></div>
+                        <div id="personal-insight-box" class="personal-insight-box">
+                            <span class="personal-insight-title" id="personal-analysis-title">Your Consolidated Market Position</span>
+                            <p class="personal-insight-text" id="personal-analysis-text">Based on your inputs, this analysis will compare you against the actual mortgage market in <span class="county-name-target"></span> and San Diego County. Please enter your details above.</p>
+                        </div>
+                        <div class="closing-question" id="closing-question">After seeing these numbers, do you feel the system is designed for someone with your profile?</div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="story-section full-width">
             <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <span class="section-label">Section 6 — Closing Takeaway</span>
+                <span class="section-label">Section 7 — Closing Takeaway</span>
                 <h2 class="section-title">The Full Picture</h2>
-                
                 <div class="statement">
                     Loan amounts, age distribution, race, ethnicity, and income combine to show that two counties living side by side can have very different mortgage realities. Each chart adds its own clue. Together they reveal how geography can influence access, affordability, and opportunity.
                 </div>
-
                 <div class="soft-question" style="text-align: center; border: none; background: #eef2f3; font-weight: bold;">
                     After seeing the full picture, which differences between <span class="county-name-target"></span> and San Diego County feel the most meaningful to you?
                 </div>
@@ -1147,7 +381,6 @@
             <p>All data used in this story comes from public and open datasets.</p>
             <p><strong>HMDA Neighborhood Summary Files (Urban Institute):</strong> Tract-level dataset from 2018 to 2023 summarizing mortgage activity.</p>
             <p><strong>FRED Economic Indicators:</strong> Mortgage Rate Series (MORTGAGE30US) and Unemployment Rate (UNRATE).</p>
-            
             <h3 style="margin-top: 30px;">Important Limitations and Disclaimer</h3>
             <p>This project is a data driven exploration. The findings here come entirely from the numbers reported in HMDA and FRED. We do not model or adjust for policy decisions, lender practices, or household wealth. HMDA data reflects only applications and originations.</p>
         </div>
@@ -1156,1168 +389,364 @@
 </div>
 
 <script>
-    // --- Hook Section State ---
-    let currentSlide = 0;
-    const totalSlides = 4;
-
-    // --- Hook Navigation Functions ---
-    function changeSlide(direction) {
-        const newSlide = currentSlide + direction;
-        if (newSlide >= 0 && newSlide < totalSlides) {
-            goToSlide(newSlide);
-        } else if (newSlide >= totalSlides) {
-            // If trying to go past last slide, go to dashboard
-            skipHook();
-        }
-    }
-
+    // --- Hook Logic ---
+    let currentSlide = 0; const totalSlides = 4;
+    function changeSlide(dir) { const next = currentSlide + dir; if(next >= 0 && next < totalSlides) goToSlide(next); else if (next >= totalSlides) skipHook(); }
     function goToSlide(index) {
-        currentSlide = index;
-        const slides = document.getElementById('hook-slides');
-        slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-        
-        // Update dots
-        document.querySelectorAll('.hook-dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentSlide);
-        });
-        
-        // Update nav buttons
-        document.getElementById('prev-btn').disabled = currentSlide === 0;
-        document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
-
-        // Trigger BUT slide animations
-        if (index === 1) {
-            startButSlideAnimation();
-        } else {
-            // Reset BUT slide when leaving
-            const typingText = document.getElementById('typing-text');
-            const typingCursor = document.getElementById('typing-cursor');
-            const butDescription = document.getElementById('but-description');
-            const statCards = document.getElementById('stat-cards');
-            if (typingText) typingText.textContent = '';
-            if (typingCursor) typingCursor.style.display = 'none';
-            if (butDescription) butDescription.style.display = 'none';
-            if (statCards) {
-                statCards.style.opacity = '0';
-                statCards.querySelectorAll('.stat-card').forEach(card => {
-                    card.classList.remove('highlight');
-                });
-            }
-        }
+        currentSlide = index; document.getElementById('hook-slides').style.transform = `translateX(-${currentSlide * 100}%)`;
+        document.getElementById('prev-btn').disabled = currentSlide === 0; document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        if (index === 1) startButSlideAnimation(); else resetButSlide();
     }
-
     function startButSlideAnimation() {
-        const typingText = document.getElementById('typing-text');
-        const typingCursor = document.getElementById('typing-cursor');
-        const butDescription = document.getElementById('but-description');
-        const statCards = document.getElementById('stat-cards');
-        
-        if (!typingText || !typingCursor) return;
-
-        // Reset
-        typingText.textContent = '';
-        typingCursor.style.display = 'inline-block';
-        butDescription.style.display = 'none';
-        statCards.style.opacity = '0';
-        
-        const fullText = " in the data, not all mortgages are treated equally.";
-        let charIndex = 0;
-        
-        function typeChar() {
-            if (charIndex < fullText.length) {
-                typingText.textContent += fullText[charIndex];
-                charIndex++;
-                setTimeout(typeChar, 50); // Typing speed
-            } else {
-                // Typing complete, show description and cards
-                setTimeout(() => {
-                    typingCursor.style.display = 'none';
-                    butDescription.style.display = 'block';
-                    butDescription.style.animation = 'fadeInUp 0.8s ease-out';
-                    
-                    // Fade in stat cards
-                    setTimeout(() => {
-                        statCards.style.transition = 'opacity 1s ease-in';
-                        statCards.style.opacity = '1';
-                        
-                        // Start highlighting cards one by one
-                        highlightCardsSequentially();
-                    }, 500);
-                }, 500);
-            }
-        }
-        
-        // Start typing after a brief delay
-        setTimeout(() => {
-            typeChar();
-        }, 300);
+        const text = document.getElementById('typing-text'); const cursor = document.getElementById('typing-cursor'); const desc = document.getElementById('but-description'); const cards = document.getElementById('stat-cards');
+        text.textContent = ''; cursor.style.display = 'inline-block'; desc.style.display = 'none'; cards.style.opacity = '0';
+        const fullText = " in the data, not all mortgages are treated equally."; let i = 0;
+        function type() { if (i < fullText.length) { text.textContent += fullText[i++]; setTimeout(type, 40); } else { cursor.style.display = 'none'; desc.style.display = 'block'; desc.style.animation = 'fadeInUp 0.8s ease-out'; setTimeout(() => { cards.style.transition = 'opacity 1s ease-in'; cards.style.opacity = '1'; highlightCards(); }, 500); } }
+        setTimeout(type, 300);
     }
-
-    function highlightCardsSequentially() {
-        const cards = document.querySelectorAll('.stat-card');
-        let cardIndex = 0;
-        
-        function highlightNext() {
-            if (cardIndex < cards.length) {
-                // Remove highlight from all cards
-                cards.forEach(card => card.classList.remove('highlight'));
-                
-                // Add highlight to current card
-                cards[cardIndex].classList.add('highlight');
-                
-                cardIndex++;
-                
-                // Continue to next card after 2 seconds
-                setTimeout(highlightNext, 2000);
-            } else {
-                // After all cards highlighted, cycle through them
-                setTimeout(() => {
-                    cards.forEach((card, index) => {
-                        setTimeout(() => {
-                            cards.forEach(c => c.classList.remove('highlight'));
-                            card.classList.add('highlight');
-                        }, index * 2000);
-                    });
-                }, 1000);
-            }
-        }
-        
-        // Start highlighting after cards are visible
-        setTimeout(highlightNext, 500);
-    }
-
-    function skipHook() {
-        document.getElementById('hook-container').style.display = 'none';
-        document.getElementById('main-dashboard').style.display = 'block';
-        window.scrollTo(0, 0);
-    }
-
-    // --- Visualization Functions for BUT Section ---
-    function showViz(statType) {
-        const modal = document.getElementById('viz-modal');
-        const title = document.getElementById('viz-title');
-        const description = document.getElementById('viz-description');
-        const chartDiv = document.getElementById('viz-chart');
-        
-        // Remove active and highlight classes from all cards
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.classList.remove('active', 'highlight');
-        });
-        
-        // Add active class to clicked card
-        event.currentTarget.classList.add('active');
-        
-        let titleText, descText, chartData;
-        
-        switch(statType) {
-            case 'gap':
-                titleText = 'White vs Black Homeownership Gap';
-                descText = 'The 30 percentage point gap represents one of the most persistent inequalities in American housing. This visualization shows how this gap varies across different regions and income levels.';
-                chartData = createGapChart();
-                break;
-            case 'denial':
-                titleText = 'Mortgage Denial Rates by Race';
-                descText = 'Black and Hispanic borrowers face denial rates that are 2.5 times higher than White borrowers, even when controlling for income and credit scores. This chart breaks down the denial patterns across different demographics.';
-                chartData = createDenialChart();
-                break;
-            case 'debt':
-                titleText = 'U.S. Mortgage Debt Overview';
-                descText = 'At over $13 trillion, mortgage debt is the largest component of U.S. household debt. This visualization shows how this debt is distributed and how it has grown over time.';
-                chartData = createDebtChart();
-                break;
-        }
-        
-        title.textContent = titleText;
-        description.textContent = descText;
-        modal.classList.add('active');
-        
-        // Clear chart div
-        chartDiv.innerHTML = '';
-        
-        // Render chart with sequential animation based on type
-        setTimeout(() => {
-            if (statType === 'gap') {
-                animateGapChart(chartDiv, chartData);
-            } else if (statType === 'denial') {
-                animateDenialChart(chartDiv, chartData);
-            } else if (statType === 'debt') {
-                animateDebtChart(chartDiv, chartData);
-            } else {
-                Plotly.newPlot(chartDiv, chartData.data, chartData.layout, {responsive: true, displayModeBar: false});
-            }
-        }, 100);
-    }
-
-    function closeViz() {
-        document.getElementById('viz-modal').classList.remove('active');
-        document.querySelectorAll('.stat-card').forEach(card => {
-            card.classList.remove('active', 'highlight');
-        });
-    }
-
-    // --- Chart Creation Functions ---
-    function createGapChart() {
-        // Simulated data showing homeownership gap across income levels
-        const incomeLevels = ['Very Low', 'Low', 'Moderate', 'Middle', 'High'];
-        const whiteOwnership = [45, 55, 68, 78, 85];
-        const blackOwnership = [25, 32, 42, 52, 65];
-        const gap = whiteOwnership.map((w, i) => w - blackOwnership[i]);
-        
-        return {
-            incomeLevels,
-            whiteOwnership,
-            blackOwnership,
-            gap,
-            layout: {
-                title: 'Homeownership Gap by Income Level',
-                xaxis: { title: 'Income Level' },
-                yaxis: { title: 'Homeownership Rate (%)', range: [0, 100] },
-                yaxis2: {
-                    title: 'Gap (pp)',
-                    overlaying: 'y',
-                    side: 'right',
-                    range: [0, 40]
-                },
-                barmode: 'group',
-                legend: { x: 0.7, y: 1 },
-                margin: { t: 50, b: 50, l: 60, r: 60 }
-            }
-        };
-    }
-
-    function animateGapChart(chartDiv, chartData) {
-        const { incomeLevels, whiteOwnership, blackOwnership, gap, layout } = chartData;
-        
-        // Step 1: Show White bars first
-        Plotly.newPlot(chartDiv, [{
-            x: incomeLevels,
-            y: whiteOwnership,
-            name: 'White Homeownership %',
-            type: 'bar',
-            marker: { color: '#667eea' }
-        }], layout, {responsive: true, displayModeBar: false});
-        
-        // Step 2: Add Black bars after 800ms
-        setTimeout(() => {
-            Plotly.addTraces(chartDiv, {
-                x: incomeLevels,
-                y: blackOwnership,
-                name: 'Black Homeownership %',
-                type: 'bar',
-                marker: { color: '#e74c3c' }
-            });
-        }, 800);
-        
-        // Step 3: Add Gap line after 1600ms
-        setTimeout(() => {
-            Plotly.addTraces(chartDiv, {
-                x: incomeLevels,
-                y: gap,
-                name: 'Gap (percentage points)',
-                type: 'scatter',
-                mode: 'lines+markers',
-                line: { color: '#ffd700', width: 3 },
-                marker: { size: 10, color: '#ffd700' },
-                yaxis: 'y2'
-            });
-        }, 1600);
-    }
-
-    function createDenialChart() {
-        const races = ['White', 'Black', 'Hispanic', 'Asian', 'Other'];
-        const denialRates = [8, 20, 18, 12, 15];
-        const colors = ['#667eea', '#e74c3c', '#f39c12', '#27ae60', '#9b59b6'];
-        
-        return {
-            races,
-            denialRates,
-            colors,
-            layout: {
-                title: 'Mortgage Denial Rates by Race/Ethnicity',
-                xaxis: { title: 'Race/Ethnicity' },
-                yaxis: { title: 'Denial Rate (%)', range: [0, 25] },
-                margin: { t: 50, b: 50, l: 60, r: 40 }
-            }
-        };
-    }
-
-    function animateDenialChart(chartDiv, chartData) {
-        const { races, denialRates, colors, layout } = chartData;
-        
-        // Initialize empty chart
-        Plotly.newPlot(chartDiv, [], layout, {responsive: true, displayModeBar: false});
-        
-        // Add bars one by one
-        races.forEach((race, index) => {
-            setTimeout(() => {
-                Plotly.addTraces(chartDiv, {
-                    x: [race],
-                    y: [denialRates[index]],
-                    type: 'bar',
-                    marker: { 
-                        color: colors[index],
-                        line: { color: '#fff', width: 2 }
-                    },
-                    text: [denialRates[index] + '%'],
-                    textposition: 'outside',
-                    name: race
-                });
-            }, index * 400); // 400ms delay between each bar
-        });
-    }
-
-    function createDebtChart() {
-        const years = [2018, 2019, 2020, 2021, 2022, 2023];
-        const mortgageDebt = [10.5, 10.8, 11.2, 11.8, 12.3, 13.1];
-        const totalDebt = [13.5, 14.0, 14.5, 15.2, 15.8, 16.5];
-        
-        return {
-            years,
-            mortgageDebt,
-            totalDebt,
-            layout: {
-                title: 'U.S. Household Debt Trends (Trillions $)',
-                xaxis: { title: 'Year' },
-                yaxis: { title: 'Debt (Trillions $)', range: [0, 18] },
-                legend: { x: 0.1, y: 0.9 },
-                margin: { t: 50, b: 50, l: 60, r: 40 }
-            }
-        };
-    }
-
-    function animateDebtChart(chartDiv, chartData) {
-        const { years, mortgageDebt, totalDebt, layout } = chartData;
-        
-        // Initialize with first year only
-        Plotly.newPlot(chartDiv, [{
-            x: [years[0]],
-            y: [mortgageDebt[0]],
-            name: 'Mortgage Debt',
-            type: 'scatter',
-            mode: 'lines+markers',
-            line: { color: '#667eea', width: 3 },
-            marker: { size: 10, color: '#667eea' },
-            fill: 'tozeroy',
-            fillcolor: 'rgba(102, 126, 234, 0.2)'
-        }], layout, {responsive: true, displayModeBar: false});
-        
-        // Add years progressively
-        for (let i = 1; i < years.length; i++) {
-            setTimeout(() => {
-                Plotly.extendTraces(chartDiv, {
-                    x: [[years[i]]],
-                    y: [[mortgageDebt[i]]]
-                }, [0]);
-            }, i * 300); // 300ms delay between each year
-        }
-        
-        // Add total debt line after mortgage debt is complete
-        setTimeout(() => {
-            Plotly.addTraces(chartDiv, {
-                x: years,
-                y: totalDebt,
-                name: 'Total Household Debt',
-                type: 'scatter',
-                mode: 'lines+markers',
-                line: { color: '#95a5a6', width: 2, dash: 'dash' },
-                marker: { size: 8, color: '#95a5a6' }
-            });
-        }, years.length * 300 + 500);
-    }
-
-    // --- Keyboard Navigation for Hook Section ---
-    document.addEventListener('keydown', function(e) {
-        const hookContainer = document.getElementById('hook-container');
-        if (hookContainer && hookContainer.style.display !== 'none') {
-            if (e.key === 'ArrowLeft') {
-                changeSlide(-1);
-            } else if (e.key === 'ArrowRight') {
-                changeSlide(1);
-            } else if (e.key === 'Escape') {
-                closeViz();
-            }
-        }
-    });
-
-    // Initialize hook navigation
-    document.addEventListener('DOMContentLoaded', function() {
-        goToSlide(0);
-    });
+    function highlightCards() { const cards = document.querySelectorAll('.stat-card'); let idx = 0; function cycle() { cards.forEach(c => c.classList.remove('highlight')); if(idx < cards.length) cards[idx++].classList.add('highlight'); else idx = 0; setTimeout(cycle, 1500); } cycle(); }
+    function resetButSlide() { document.getElementById('typing-text').textContent = ''; document.getElementById('stat-cards').style.opacity = '0'; }
+    function skipHook() { document.getElementById('hook-container').style.display = 'none'; document.getElementById('main-dashboard').style.display = 'block'; }
 
     // --- Global State ---
-    const SD_FIPS = "06073"; // San Diego County
-    const DEFAULT_FIPS = "25025"; // Suffolk County, MA (Boston)
-    let currentYear = 2021;
-    let selectedCountyFips = null;
-    let currentView = 'usa';
-    let currentStateFips = null;
-    let tractDataByYear = new Map();
-    let stateNameByFips = new Map();
-    let countyNameByFips = new Map();
-    let currentHeatmapMode = 'target';
-    let latestLoanBins = null;
-    let latestAgeStats = null;
-    let latestRaceStats = null;
-    let latestIncomeStats = null;
-    let latestHeatmap = null;
-
-    // State FIPS mapping
-    const stateFipsToAbbr = {
-        '01': 'AL', '02': 'AK', '04': 'AZ', '05': 'AR', '06': 'CA', '08': 'CO', '09': 'CT', '10': 'DE',
-        '11': 'DC', '12': 'FL', '13': 'GA', '15': 'HI', '16': 'ID', '17': 'IL', '18': 'IN', '19': 'IA',
-        '20': 'KS', '21': 'KY', '22': 'LA', '23': 'ME', '24': 'MD', '25': 'MA', '26': 'MI', '27': 'MN',
-        '28': 'MS', '29': 'MO', '30': 'MT', '31': 'NE', '32': 'NV', '33': 'NH', '34': 'NJ', '35': 'NM',
-        '36': 'NY', '37': 'NC', '38': 'ND', '39': 'OH', '40': 'OK', '41': 'OR', '42': 'PA', '44': 'RI',
-        '45': 'SC', '46': 'SD', '47': 'TN', '48': 'TX', '49': 'UT', '50': 'VT', '51': 'VA', '53': 'WA',
-        '54': 'WV', '55': 'WI', '56': 'WY'
-    };
+    const SD_FIPS = "06073"; let currentYear = 2021; let selectedCountyFips = null; let currentView = 'usa'; let currentStateFips = null; let tractDataByYear = new Map(); let stateNameByFips = new Map(); let countyNameByFips = new Map(); let currentHeatmapMode = 'target';
+    let latestLoanBins = null; let latestAgeStats = null; let latestRaceStats = null; let latestIncomeStats = null; let latestHeatmap = null;
+    const stateFipsToAbbr = { '01': 'AL', '02': 'AK', '04': 'AZ', '05': 'AR', '06': 'CA', '08': 'CO', '09': 'CT', '10': 'DE', '11': 'DC', '12': 'FL', '13': 'GA', '15': 'HI', '16': 'ID', '17': 'IL', '18': 'IN', '19': 'IA', '20': 'KS', '21': 'KY', '22': 'LA', '23': 'ME', '24': 'MD', '25': 'MA', '26': 'MI', '27': 'MN', '28': 'MS', '29': 'MO', '30': 'MT', '31': 'NE', '32': 'NV', '33': 'NH', '34': 'NJ', '35': 'NM', '36': 'NY', '37': 'NC', '38': 'ND', '39': 'OH', '40': 'OK', '41': 'OR', '42': 'PA', '44': 'RI', '45': 'SC', '46': 'SD', '47': 'TN', '48': 'TX', '49': 'UT', '50': 'VT', '51': 'VA', '53': 'WA', '54': 'WV', '55': 'WI', '56': 'WY' };
     const stateAbbrToFips = Object.fromEntries(Object.entries(stateFipsToAbbr).map(a => a.reverse()));
 
-    // --- UI Logic: Slide Switching ---
+    // --- Slide Switching ---
     function switchSlide(sectionId, slideNum) {
         const section = document.getElementById(sectionId);
-        // Toggle Slides
         section.querySelectorAll('.slide').forEach(el => el.classList.remove('active'));
         section.querySelector(`.slide-${slideNum}`).classList.add('active');
-        
-        // Toggle Buttons
         const btns = section.querySelectorAll('.nav-btn');
         btns.forEach(b => b.classList.remove('active'));
         btns[slideNum - 1].classList.add('active');
     }
 
     // --- Data Loading ---
-    const filesToLoad = [
-        d3.csv("location_data.csv"),
-        d3.csv("hmda_tract_2018.csv"),
-        d3.csv("hmda_tract_2019.csv"),
-        d3.csv("hmda_tract_2020.csv"),
-        d3.csv("hmda_tract_2021.csv"),
-        d3.csv("hmda_tract_2022.csv"),
-        d3.csv("hmda_tract_2023.csv")
-    ];
-
+    const filesToLoad = [ d3.csv("location_data.csv"), d3.csv("hmda_tract_2018.csv"), d3.csv("hmda_tract_2019.csv"), d3.csv("hmda_tract_2020.csv"), d3.csv("hmda_tract_2021.csv"), d3.csv("hmda_tract_2022.csv"), d3.csv("hmda_tract_2023.csv") ];
     Promise.all(filesToLoad).then(([locationData, ...tractArrays]) => {
         processLocationData(locationData);
-        
         const years = [2018, 2019, 2020, 2021, 2022, 2023];
         tractArrays.forEach((data, i) => {
             const year = years[i];
             const processed = data.map(d => {
                 const geo = (year >= 2022) ? (d.geo2020 || '') : (d.geo2010 || '');
-                return {
-                    ...d,
-                    county_fips: geo.substring(0, 5).padStart(5, '0'),
-                    state_fips: geo.substring(0, 2).padStart(2, '0'),
-                    year: year
-                };
+                return { ...d, county_fips: geo.substring(0, 5).padStart(5, '0'), state_fips: geo.substring(0, 2).padStart(2, '0'), year: year };
             }).filter(d => d.county_fips.length === 5);
             tractDataByYear.set(year, processed);
         });
-
         initControls(years);
-        initInteractionInputs();
+        initPersonalizedInputs();
         renderUSAMap();
         document.getElementById('loading').style.display = 'none';
-
-        // --- LOAD DEFAULT: BOSTON (Suffolk, MA) ---
-        setTimeout(() => {
-            generateStory(DEFAULT_FIPS);
-            document.getElementById('story-container').style.display = 'block';
-        }, 500);
-
-    }).catch(err => {
-        console.error("Data Load Error:", err);
-        document.getElementById('loading').innerHTML = `<p style="color:red">Error loading data: ${err.message}</p>`;
     });
 
-    // --- Helper: Location Names ---
     function processLocationData(data) {
         data.forEach(d => {
             const stateFips = String(d.STATE).padStart(2, '0');
             if (d.SUMLEV === '040') stateNameByFips.set(stateFips, d.STNAME);
-            if (d.SUMLEV === '050') {
-                const fips = stateFips + String(d.COUNTY).padStart(3, '0');
-                countyNameByFips.set(fips, d.CTYNAME);
-            }
+            if (d.SUMLEV === '050') { const fips = stateFips + String(d.COUNTY).padStart(3, '0'); countyNameByFips.set(fips, d.CTYNAME); }
         });
-        
         const select = document.getElementById('state-select');
-        Array.from(stateNameByFips.entries())
-            .sort((a,b) => a[1].localeCompare(b[1]))
-            .forEach(([k,v]) => {
-                const opt = document.createElement('option');
-                opt.value = k;
-                opt.text = v;
-                select.appendChild(opt);
-            });
+        Array.from(stateNameByFips.entries()).sort((a,b) => a[1].localeCompare(b[1])).forEach(([k,v]) => { const opt = document.createElement('option'); opt.value = k; opt.text = v; select.appendChild(opt); });
     }
 
     function initControls(years) {
         const yearSelect = document.getElementById('year-select');
-        years.forEach(y => {
-            const opt = document.createElement('option');
-            opt.value = y;
-            opt.text = y;
-            yearSelect.appendChild(opt);
-        });
+        years.forEach(y => { const opt = document.createElement('option'); opt.value = y; opt.text = y; yearSelect.appendChild(opt); });
         yearSelect.value = currentYear;
-
-        yearSelect.addEventListener('change', (e) => {
-            currentYear = +e.target.value;
-            if (currentView === 'usa') renderUSAMap();
-            else if (currentView === 'state') renderCountyMap(currentStateFips);
-            if (selectedCountyFips) generateStory(selectedCountyFips);
-        });
-
-        document.getElementById('state-select').addEventListener('change', (e) => {
-            const stateFips = e.target.value;
-            if (stateFips) enterStateView(stateFips);
-            else resetToUSA();
-        });
+        yearSelect.addEventListener('change', (e) => { currentYear = +e.target.value; if (currentView === 'usa') renderUSAMap(); else if (currentView === 'state') renderCountyMap(currentStateFips); if (selectedCountyFips) generateStory(selectedCountyFips); });
+        document.getElementById('state-select').addEventListener('change', (e) => { const stateFips = e.target.value; if (stateFips) enterStateView(stateFips); else resetToUSA(); });
     }
 
-    function initInteractionInputs() {
-        const loanInput = document.getElementById('loan-credit-input');
-        const ageInput = document.getElementById('age-input');
-        const raceSelect = document.getElementById('race-select');
-        const incomeInput = document.getElementById('income-input');
-        const heatmapRaceSelect = document.getElementById('heatmap-race-select');
-        const heatmapIncomeSelect = document.getElementById('heatmap-income-select');
-
-        if (loanInput) loanInput.addEventListener('input', updateLoanInteraction);
-        if (ageInput) ageInput.addEventListener('input', updateAgeInteraction);
-        if (raceSelect) raceSelect.addEventListener('change', updateRaceInteraction);
-        if (incomeInput) incomeInput.addEventListener('input', updateIncomeInteraction);
-        if (heatmapRaceSelect) heatmapRaceSelect.addEventListener('change', updateHeatmapInteraction);
-        if (heatmapIncomeSelect) heatmapIncomeSelect.addEventListener('change', updateHeatmapInteraction);
+    function initPersonalizedInputs() {
+        ['summary-credit', 'summary-age', 'summary-race', 'summary-income'].forEach(id => { document.getElementById(id).addEventListener('input', () => { updatePersonalizedChart(); generateComprehensiveAnalysis(); }); });
+        document.getElementById('personal-chart-select').addEventListener('change', updatePersonalizedChart);
     }
 
     // --- Map Logic ---
     function renderUSAMap() {
-        currentView = 'usa';
-        currentStateFips = null;
-        document.getElementById('back-btn').style.display = 'none';
-        document.getElementById('map-status').textContent = `Viewing: United States (${currentYear})`;
-        document.getElementById('map-instruction').textContent = "👆 Click on any State to drill down.";
-        document.getElementById('state-select').value = "";
-
-        const data = tractDataByYear.get(currentYear);
-        if (!data) return;
-
-        const stateAgg = d3.rollup(data, 
-            v => {
-                const total = d3.sum(v, d => +d.owner_purchase_originations || 0);
-                const white = d3.sum(v, d => +d.race_white_purchase || 0);
-                return total > 0 ? 1 - (white / total) : 0;
-            },
-            d => stateFipsToAbbr[d.state_fips] || "Unknown"
-        );
-
-        const locations = Array.from(stateAgg.keys()).filter(k => k !== "Unknown");
-        const z = locations.map(k => stateAgg.get(k));
-
-        const trace = {
-            type: 'choropleth',
-            locationmode: 'USA-states',
-            locations: locations,
-            z: z,
-            colorscale: 'Blues',
-            zmin: 0, zmax: 0.8,
-            colorbar: { title: 'Minority Share', tickformat: '.0%' },
-            marker: { line: { color: 'white', width: 1 } },
-            hovertemplate: '<b>%{text}</b><br>Minority Share: %{z:.1%}<extra></extra>',
-            text: locations.map(abbr => {
-                const fips = stateAbbrToFips[abbr];
-                return stateNameByFips.get(fips) || abbr;
-            })
-        };
-
-        const layout = {
-            geo: { scope: 'usa', projection: { type: 'albers usa' } },
-            margin: { t: 0, b: 0, l: 0, r: 0 },
-            height: 500
-        };
-
-        Plotly.newPlot('map-container', [trace], layout, {responsive: true}).then(gd => {
-            gd.on('plotly_click', d => {
-                const abbr = d.points[0].location;
-                const fips = stateAbbrToFips[abbr];
-                if(fips) enterStateView(fips);
-            });
-        });
+        currentView = 'usa'; currentStateFips = null;
+        document.getElementById('back-btn').style.display = 'none'; document.getElementById('map-status').textContent = `Viewing: United States (${currentYear})`; document.getElementById('state-select').value = "";
+        const data = tractDataByYear.get(currentYear); if (!data) return;
+        const stateAgg = d3.rollup(data, v => { const total = d3.sum(v, d => +d.owner_purchase_originations || 0); const white = d3.sum(v, d => +d.race_white_purchase || 0); return total > 0 ? 1 - (white / total) : 0; }, d => stateFipsToAbbr[d.state_fips] || "Unknown");
+        const locations = Array.from(stateAgg.keys()).filter(k => k !== "Unknown"); const z = locations.map(k => stateAgg.get(k));
+        Plotly.newPlot('map-container', [{ type: 'choropleth', locationmode: 'USA-states', locations: locations, z: z, colorscale: 'Blues', zmin: 0, zmax: 0.8, colorbar: { title: 'Minority Share', tickformat: '.0%' } }], { geo: { scope: 'usa', projection: { type: 'albers usa' } }, margin: { t: 0, b: 0, l: 0, r: 0 }, height: 500 }, {responsive: true}).then(gd => { gd.on('plotly_click', d => { const fips = stateAbbrToFips[d.points[0].location]; if(fips) enterStateView(fips); }); });
     }
 
     function enterStateView(stateFips) {
-        currentStateFips = stateFips;
-        currentView = 'state';
-        
-        document.getElementById('state-select').value = stateFips;
-        document.getElementById('back-btn').style.display = 'inline-block';
-        const stateName = stateNameByFips.get(stateFips);
-        document.getElementById('map-status').textContent = `Viewing: ${stateName} (${currentYear})`;
-        document.getElementById('map-instruction').textContent = `👆 Click on any ${stateName} County to compare with San Diego.`;
-
+        currentStateFips = stateFips; currentView = 'state';
+        document.getElementById('state-select').value = stateFips; document.getElementById('back-btn').style.display = 'inline-block'; document.getElementById('map-status').textContent = `Viewing: ${stateNameByFips.get(stateFips)} (${currentYear})`;
         renderCountyMap(stateFips);
     }
 
     function renderCountyMap(stateFips) {
-        const data = tractDataByYear.get(currentYear);
-        if (!data) return;
-
-        const stateData = data.filter(d => d.state_fips === stateFips);
-
-        const countyAgg = d3.rollup(stateData, 
-            v => {
-                const total = d3.sum(v, d => +d.owner_purchase_originations || 0);
-                const white = d3.sum(v, d => +d.race_white_purchase || 0);
-                return total > 0 ? 1 - (white / total) : 0;
-            },
-            d => d.county_fips
-        );
-
-        const locations = Array.from(countyAgg.keys());
-        const z = Array.from(countyAgg.values());
-
-        const trace = {
-            type: 'choropleth',
-            locationmode: 'geojson-id',
-            geojson: 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json',
-            locations: locations,
-            z: z,
-            colorscale: 'Blues',
-            zmin: 0, zmax: 1,
-            colorbar: { title: 'Minority Share', tickformat: '.0%' },
-            marker: { line: { color: 'white', width: 0.5 } },
-            hovertemplate: '<b>%{text}</b><br>Minority Share: %{z:.1%}<extra></extra>',
-            text: locations.map(f => countyNameByFips.get(f) || f)
-        };
-
-        const layout = {
-            geo: {
-                scope: 'usa',
-                projection: { type: 'albers usa' },
-                fitbounds: 'locations' 
-            },
-            margin: { t: 0, b: 0, l: 0, r: 0 },
-            height: 500
-        };
-
-        Plotly.newPlot('map-container', [trace], layout, {responsive: true}).then(gd => {
-            gd.on('plotly_click', d => {
-                const fips = d.points[0].location;
-                generateStory(fips);
-                document.getElementById('story-container').style.display = 'block';
-                document.getElementById('story-container').scrollIntoView({behavior: 'smooth'});
-            });
-        });
+        const data = tractDataByYear.get(currentYear).filter(d => d.state_fips === stateFips);
+        const countyAgg = d3.rollup(data, v => { const total = d3.sum(v, d => +d.owner_purchase_originations || 0); const white = d3.sum(v, d => +d.race_white_purchase || 0); return total > 0 ? 1 - (white / total) : 0; }, d => d.county_fips);
+        const locations = Array.from(countyAgg.keys()); const z = Array.from(countyAgg.values());
+        Plotly.newPlot('map-container', [{ type: 'choropleth', locationmode: 'geojson-id', geojson: 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json', locations: locations, z: z, colorscale: 'Blues', zmin: 0, zmax: 1, colorbar: { title: 'Minority Share', tickformat: '.0%' }, text: locations.map(f => countyNameByFips.get(f) || f) }], { geo: { scope: 'usa', projection: { type: 'albers usa' }, fitbounds: 'locations' }, margin: { t: 0, b: 0, l: 0, r: 0 }, height: 500 }, {responsive: true}).then(gd => { gd.on('plotly_click', d => { generateStory(d.points[0].location); document.getElementById('story-container').style.display = 'block'; document.getElementById('story-container').scrollIntoView({behavior: 'smooth'}); }); });
     }
 
-    function resetToUSA() {
-        renderUSAMap();
-    }
+    function resetToUSA() { renderUSAMap(); }
 
-    // --- STORY GENERATION & ANALYSIS ---
+    // --- Story Generation ---
     function generateStory(targetFips) {
         selectedCountyFips = targetFips;
         const yearData = tractDataByYear.get(currentYear);
-        
         const targetData = yearData.filter(d => d.county_fips === targetFips);
         const sdData = yearData.filter(d => d.county_fips === SD_FIPS);
-
-        const targetName = countyNameByFips.get(targetFips) || "Your County";
-        
-        // Update Target Name Placeholders
+        const targetName = countyNameByFips.get(targetFips) || "Selected County";
         document.querySelectorAll('.county-name-target').forEach(el => el.textContent = targetName);
 
-        // Stats
-        const getMinorityShare = (data) => {
-            const total = d3.sum(data, d => +d.owner_purchase_originations || 0);
-            const white = d3.sum(data, d => +d.race_white_purchase || 0);
-            return total > 0 ? ((1 - (white/total)) * 100).toFixed(1) + '%' : 'N/A';
-        };
-        document.getElementById('hero-target-stat').textContent = getMinorityShare(targetData);
-        document.getElementById('hero-sd-stat').textContent = getMinorityShare(sdData);
+        const getShare = d => { const t = d3.sum(d, x => +x.owner_purchase_originations||0); const w = d3.sum(d, x => +x.race_white_purchase||0); return t>0 ? ((1 - w/t)*100).toFixed(1)+'%' : 'N/A'; };
+        document.getElementById('hero-target-stat').textContent = getShare(targetData);
+        document.getElementById('hero-sd-stat').textContent = getShare(sdData);
 
-        // Generate Analysis for each Section
-        generateLoanAnalysis(targetData, targetName);
-        generateAgeAnalysis(targetData, targetName);
-        generateRaceAnalysis(targetData, targetName);
-        generateIncomeAnalysis(targetData, targetName);
+        generateLoanAnalysis(targetData, targetName); generateAgeAnalysis(targetData, targetName); generateRaceAnalysis(targetData, targetName); generateIncomeAnalysis(targetData, targetName);
 
-        // Render Charts
-        renderLoanChart(targetData, sdData);
-        renderAgeChart(targetData, sdData);
-        renderRaceChart(targetData, sdData);
-        renderIncomeChart(targetData, sdData);
-        renderHeatmap(targetData);
+        renderLoanChart('chart-loan', targetData, sdData, null); renderAgeChart('chart-age', targetData, sdData, null); renderRaceChart('chart-race', targetData, sdData, null); renderIncomeChart('chart-income', targetData, sdData, null);
         
+        // Initial heatmap render
         currentHeatmapMode = 'target';
-        updateHeatmapButton();
+        updateHeatmapLabel();
+        renderHeatmap('chart-heatmap', targetData, null, null);
         
-        // Reset all sliders to view 1
-        document.querySelectorAll('.slide-1').forEach(s => s.classList.add('active'));
-        document.querySelectorAll('.slide-2').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.nav-controls button:first-child').forEach(b => b.classList.add('active'));
+        preparePersonalData(targetData, sdData);
+        document.querySelectorAll('.slide-1').forEach(s => s.classList.add('active')); document.querySelectorAll('.slide-2').forEach(s => s.classList.remove('active'));
     }
 
-    // --- Analysis Generators (Updated Logic) ---
-    function generateLoanAnalysis(data, name) {
-        // Bin Data
-        let bins = [0,0,0,0];
-        data.forEach(d => {
-            const amt = +d.owner_loan_amount_median || 0;
-            const count = +d.owner_purchase_originations || 0;
-            if (amt < 200000) bins[0] += count;
-            else if (amt < 400000) bins[1] += count;
-            else if (amt < 600000) bins[2] += count;
-            else bins[3] += count;
-        });
-        const total = d3.sum(bins);
-        if (total === 0) return;
-        
-        const labels = ['$0-200k', '$200k-400k', '$400k-600k', '$600k+'];
-        const maxIdx = bins.indexOf(Math.max(...bins));
-        const maxPct = (bins[maxIdx] / total * 100).toFixed(1);
-        const dominantBin = labels[maxIdx];
-
-        let headline, narrative;
-
-        if (maxIdx >= 3) {
-            headline = "Market Exclusion through Pricing";
-            narrative = `The dominant price range in ${name} is <strong>${dominantBin}</strong>, accounting for <strong>${maxPct}%</strong> of all loans. 
-            This high-cost environment signals deep wealth segregation, where homeownership is accessible primarily to the affluent, potentially displacing long-time residents and limiting economic mobility for working families.`;
-        } else if (maxIdx <= 1) {
-            headline = "Entry-Level Access or Undervaluation?";
-            narrative = `With <strong>${maxPct}%</strong> of loans falling in the <strong>${dominantBin}</strong> range, ${name} remains one of the few areas offering access to first-time buyers. 
-            However, this affordability may come with challenges: are these homes appreciating in value, or does this reflect historical underinvestment in local housing stock?`;
-        } else {
-            headline = "The Missing Middle?";
-            narrative = `The market is concentrated in the <strong>${dominantBin}</strong> range (${maxPct}%), suggesting a stable middle-class housing stock. 
-            Yet, as prices creep upward, the question remains: is this middle tier shrinking, forcing moderate-income buyers out of the market?`;
-        }
-
-        document.getElementById('analysis-loan-highlight').textContent = headline;
-        document.getElementById('analysis-loan-text').innerHTML = narrative;
-    }
-
-    function generateAgeAnalysis(data, name) {
-        const counts = {
-            'Young Adults (18-34)': d3.sum(data, d => +(d.age_younger_purchase||0)),
-            'Mid-Career (35-54)': d3.sum(data, d => +(d.age_middleyounger_purchase||0)) + d3.sum(data, d => +(d.age_middleolder_purchase||0)),
-            'Older (55+)': d3.sum(data, d => +(d.age_older_purchase||0))
-        };
-        const total = d3.sum(Object.values(counts));
-        if (total === 0) return;
-
-        const maxGroup = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
-        const maxPct = (counts[maxGroup] / total * 100).toFixed(1);
-
-        let headline, narrative;
-
-        if (maxGroup.includes('Young')) {
-            headline = "Building Future Wealth";
-            narrative = `Young adults (18-34) dominate the market with <strong>${maxPct}%</strong> of loans. 
-            This suggests ${name} is acting as a critical launchpad for generational wealth building. The key challenge for inequality here is ensuring this access is shared equitably across racial lines, rather than just benefiting those with familial down payment assistance.`;
-        } else if (maxGroup.includes('Older')) {
-            headline = "Wealth Consolidation";
-            narrative = `Older borrowers (55+) account for <strong>${maxPct}%</strong> of mortgage activity. 
-            A market skewed toward older buyers often signals high entry barriers, where purchases are driven by accumulated equity from previous homes rather than income—effectively locking out younger, first-time buyers without intergenerational wealth.`;
-        } else {
-            headline = "Established Homeowners";
-            narrative = `The market is anchored by mid-career borrowers (${maxGroup}), who represent <strong>${maxPct}%</strong> of activity. 
-            This typically reflects a trade-up market where existing homeowners leverage equity to move, potentially widening the gap between those who already own and those trying to enter.`;
-        }
-
-        document.getElementById('analysis-age-highlight').textContent = headline;
-        document.getElementById('analysis-age-text').innerHTML = narrative;
-    }
-
-    function generateRaceAnalysis(data, name) {
-        const counts = {
-            'White': d3.sum(data, d => +(d.race_white_purchase||0)),
-            'African American': d3.sum(data, d => +(d.race_black_purchase||0)),
-            'Hispanic': d3.sum(data, d => +(d.race_hispanic_purchase||0)),
-            'Asian': d3.sum(data, d => +(d.race_asian_purchase||0)),
-            'Total': d3.sum(data, d => +(d.owner_purchase_originations||0))
-        };
-        
-        if (counts.Total === 0) return;
-
-        const minPct = ((counts.Total - counts.White) / counts.Total * 100).toFixed(1);
-        const whitePct = (counts.White / counts.Total * 100).toFixed(1);
-        const blackPct = (counts['African American'] / counts.Total * 100).toFixed(1);
-
-        let headline, narrative;
-
-        if (parseFloat(minPct) < 20) {
-            headline = "Systemic Exclusion";
-            narrative = `In ${name}, minority borrowers represent only <strong>${minPct}%</strong> of the market, compared to <strong>${whitePct}%</strong> for White borrowers. 
-            This stark disparity highlights persistent systemic barriers—whether through pricing, credit scoring, or inventory shortages—that continue to exclude communities of color from the wealth-building power of homeownership.`;
-        } else if (parseFloat(minPct) > 50) {
-            headline = "A Shift in Demographics";
-            narrative = `Minority borrowers make up the majority (<strong>${minPct}%</strong>) of the lending market in ${name}. 
-            While this indicates high access, it is crucial to examine the *quality* of this access: are these borrowers receiving fair interest rates and accessing appreciating neighborhoods, or are they concentrated in areas with lower equity returns?`;
-        } else {
-            headline = "Diversity with Disparities";
-            narrative = `While ${name} shows a diverse borrower base (${minPct}% minority), African American borrowers specifically account for <strong>${blackPct}%</strong>. 
-            This gap between overall diversity and Black homeownership suggests that specific barriers—likely rooted in historical redlining and wealth gaps—remain stubbornly effective.`;
-        }
-
-        document.getElementById('analysis-race-highlight').textContent = headline;
-        document.getElementById('analysis-race-text').innerHTML = narrative;
-    }
-
-    function generateIncomeAnalysis(data, name) {
-        const map = {
-            'Very Low': d3.sum(data, d => +(d.income_verylow_purchase||0)),
-            'Low': d3.sum(data, d => +(d.income_low_purchase||0)),
-            'Moderate': d3.sum(data, d => +(d.income_moderate_purchase||0)),
-            'High': d3.sum(data, d => +(d.income_high_purchase||0))
-        };
-        const total = d3.sum(Object.values(map));
-        if (total === 0) return;
-
-        const maxGroup = Object.keys(map).reduce((a, b) => map[a] > map[b] ? a : b);
-        const maxPct = (map[maxGroup] / total * 100).toFixed(1);
-
-        let headline, narrative;
-
-        if (maxGroup === 'High') {
-            headline = "The Wealth Gatekeeper";
-            narrative = `<strong>High Income</strong> borrowers secure <strong>${maxPct}%</strong> of all loans in ${name}. 
-            This concentration of credit among the wealthy signals a market that has become structurally unaffordable for the working class, turning homeownership from a path to stability into a luxury good.`;
-        } else if (maxGroup === 'Very Low' || maxGroup === 'Low') {
-            headline = "Pathways for Modest Incomes";
-            narrative = `Unlike many regions, ${name} sees <strong>${maxPct}%</strong> of loans going to <strong>${maxGroup} Income</strong> borrowers. 
-            This suggests active affordable lending programs or lower housing costs. The critical question is whether these homes provide the same long-term wealth appreciation as those in higher-income brackets.`;
-        } else {
-            headline = "The Middle-Class Squeeze";
-            narrative = `Activity is centered on <strong>${maxGroup} Income</strong> borrowers (${maxPct}%), indicating a stable middle-class market. 
-            However, with high-income activity likely growing, these middle-income families may face increasing pressure, forcing them to stretch budgets significantly to compete.`;
-        }
-
-        document.getElementById('analysis-income-highlight').textContent = headline;
-        document.getElementById('analysis-income-text').innerHTML = narrative;
-    }
-
-    // --- Charting Functions ---
-    function getAggregatedStats(data, fieldMap) {
-        const total = d3.sum(data, d => +d.owner_purchase_originations || 0);
-        const stats = {};
-        for (const [key, col] of Object.entries(fieldMap)) {
-            const val = d3.sum(data, d => +d[col] || 0);
-            stats[key] = total > 0 ? (val / total * 100) : 0;
-        }
-        return stats;
-    }
-
-    const getLoanBucketForScore = (score) => {
-        if (score < 580) return '$0-200k';
-        if (score < 670) return '$200k-400k';
-        if (score < 740) return '$400k-600k';
-        return '$600k+';
-    };
-
-    const getAgeBucket = (age) => {
-        if (age < 35) return '18-34';
-        if (age < 45) return '35-44';
-        if (age < 55) return '45-54';
-        return '55+';
-    };
-
-    const getIncomeBucket = (income) => {
-        if (income < 60000) return 'Very Low';
-        if (income < 95000) return 'Low';
-        if (income < 140000) return 'Moderate';
-        return 'High';
-    };
-
-    function renderLoanChart(target, sd) {
-        const binData = (data) => {
-            const counts = [0, 0, 0, 0];
-            data.forEach(d => {
-                const amt = +d.owner_loan_amount_median || 0;
-                const count = +d.owner_purchase_originations || 0;
-                if (amt < 200000) counts[0] += count;
-                else if (amt < 400000) counts[1] += count;
-                else if (amt < 600000) counts[2] += count;
-                else counts[3] += count;
-            });
-            const total = d3.sum(counts);
-            return counts.map(c => total > 0 ? (c / total * 100) : 0);
-        };
-        const targetVals = binData(target);
-        const sdVals = binData(sd);
-        const labels = ['$0-200k', '$200k-400k', '$400k-600k', '$600k+'];
-        latestLoanBins = { labels, target: targetVals, sd: sdVals };
-        updateLoanInteraction();
-    }
-
-    function renderAgeChart(target, sd) {
-        const map = {
-            '18-34': 'age_younger_purchase',
-            '35-44': 'age_middleyounger_purchase',
-            '45-54': 'age_middleolder_purchase',
-            '55+': 'age_older_purchase'
-        };
-        const t = getAggregatedStats(target, map);
-        const s = getAggregatedStats(sd, map);
-        latestAgeStats = { labels: Object.keys(map), target: Object.values(t), sd: Object.values(s) };
-        updateAgeInteraction();
-    }
-
-    function renderRaceChart(target, sd) {
-        const map = {
-            'White': 'race_white_purchase',
-            'African American': 'race_black_purchase',
-            'Hispanic': 'race_hispanic_purchase',
-            'Asian': 'race_asian_purchase'
-        };
-        const t = getAggregatedStats(target, map);
-        const s = getAggregatedStats(sd, map);
-        latestRaceStats = { labels: Object.keys(map), target: Object.values(t), sd: Object.values(s) };
-        updateRaceInteraction();
-    }
-
-    function renderIncomeChart(target, sd) {
-        const map = {
-            'Very Low': 'income_verylow_purchase',
-            'Low': 'income_low_purchase',
-            'Moderate': 'income_moderate_purchase',
-            'High': 'income_high_purchase'
-        };
-        const t = getAggregatedStats(target, map);
-        const s = getAggregatedStats(sd, map);
-        latestIncomeStats = { labels: Object.keys(map), target: Object.values(t), sd: Object.values(s) };
-        updateIncomeInteraction();
-    }
-
-    function drawComparisonBar(divId, xLabels, targetY, sdY, yTitle, highlightLabel = null) {
-        const trace1 = {
-            x: xLabels, y: targetY, name: 'Selected County', type: 'bar',
-            marker: { color: '#54a0ff' }
-        };
-        const trace2 = {
-            x: xLabels, y: sdY, name: 'San Diego', type: 'bar',
-            marker: { color: '#ff9f43' }
-        };
-
-        const traces = [trace1, trace2];
-
-        if (highlightLabel && xLabels.includes(highlightLabel)) {
-            const idx = xLabels.indexOf(highlightLabel);
-            traces.push({
-                x: [highlightLabel, highlightLabel],
-                y: [targetY[idx], sdY[idx]],
-                mode: 'markers+text',
-                marker: { color: '#e74c3c', size: 14, symbol: 'star' },
-                text: ['You', 'You'],
-                textposition: 'top center',
-                name: 'Your position',
-                hovertemplate: 'Your spot in %{x}<extra></extra>'
-            });
-        }
-
-        const layout = {
-            barmode: 'group',
-            margin: { t: 20, b: 40, l: 40, r: 10 },
-            showlegend: true,
-            legend: { orientation: 'h', y: -0.15 },
-            yaxis: { title: yTitle, ticksuffix: '%' },
-            height: 350
-        };
-        Plotly.newPlot(divId, traces, layout, { responsive: true, displayModeBar: false });
-    }
-
-    function updateLoanInteraction() {
-        if (!latestLoanBins) return;
-        const scoreInput = document.getElementById('loan-credit-input');
-        const feedback = document.getElementById('loan-feedback');
-        const score = parseInt(scoreInput?.value, 10);
-
-        const highlight = (!isNaN(score) && score >= 300 && score <= 850) ? getLoanBucketForScore(score) : null;
-        drawComparisonBar('chart-loan', latestLoanBins.labels, latestLoanBins.target, latestLoanBins.sd, 'Percentage of Loans', highlight);
-
-        if (!highlight) {
-            if (feedback) feedback.textContent = 'Enter a valid credit score to see which loan band you most likely fit into.';
-            return;
-        }
-
-        const idx = latestLoanBins.labels.indexOf(highlight);
-        const targetShare = latestLoanBins.target[idx].toFixed(1);
-        const sdShare = latestLoanBins.sd[idx].toFixed(1);
-        const countyLabel = countyNameByFips.get(selectedCountyFips) || 'your selected county';
-        if (feedback) {
-            feedback.textContent = `With a credit score of ${score}, borrowers often land in the ${highlight} band. In ${countyLabel}, ${targetShare}% of loans sit here versus ${sdShare}% in San Diego.`;
-        }
-    }
-
-    function updateAgeInteraction() {
-        if (!latestAgeStats) return;
-        const ageInput = document.getElementById('age-input');
-        const feedback = document.getElementById('age-feedback');
-        const age = parseInt(ageInput?.value, 10);
-
-        const highlight = (!isNaN(age) && age >= 18) ? getAgeBucket(age) : null;
-        drawComparisonBar('chart-age', latestAgeStats.labels, latestAgeStats.target, latestAgeStats.sd, 'Share of Borrowers', highlight);
-
-        if (!highlight) {
-            if (feedback) feedback.textContent = 'Add your age to spotlight the generation you fall into across both counties.';
-            return;
-        }
-
-        const idx = latestAgeStats.labels.indexOf(highlight);
-        const targetShare = latestAgeStats.target[idx].toFixed(1);
-        const sdShare = latestAgeStats.sd[idx].toFixed(1);
-        const countyLabel = countyNameByFips.get(selectedCountyFips) || 'your selected county';
-        if (feedback) {
-            feedback.textContent = `Age ${age} places you in the ${highlight} group. That slice makes up ${targetShare}% of borrowers in ${countyLabel} and ${sdShare}% in San Diego.`;
-        }
-    }
-
-    function updateRaceInteraction() {
-        if (!latestRaceStats) return;
-        const raceSelect = document.getElementById('race-select');
-        const feedback = document.getElementById('race-feedback');
-        const race = raceSelect?.value || 'White';
-
-        drawComparisonBar('chart-race', latestRaceStats.labels, latestRaceStats.target, latestRaceStats.sd, 'Share of Borrowers', race);
-
-        const idx = latestRaceStats.labels.indexOf(race);
-        const targetShare = latestRaceStats.target[idx].toFixed(1);
-        const sdShare = latestRaceStats.sd[idx].toFixed(1);
-        const countyLabel = countyNameByFips.get(selectedCountyFips) || 'your selected county';
-        if (feedback) {
-            feedback.textContent = `${race} borrowers represent ${targetShare}% of activity in ${countyLabel} versus ${sdShare}% in San Diego.`;
-        }
-    }
-
-    function updateIncomeInteraction() {
-        if (!latestIncomeStats) return;
-        const incomeInput = document.getElementById('income-input');
-        const feedback = document.getElementById('income-feedback');
-        const income = parseInt(incomeInput?.value, 10);
-
-        const highlight = (!isNaN(income) && income >= 0) ? getIncomeBucket(income) : null;
-        drawComparisonBar('chart-income', latestIncomeStats.labels, latestIncomeStats.target, latestIncomeStats.sd, 'Share of Borrowers', highlight);
-
-        if (!highlight) {
-            if (feedback) feedback.textContent = 'Enter your household income to see which affordability tier you match in each county.';
-            return;
-        }
-
-        const idx = latestIncomeStats.labels.indexOf(highlight);
-        const targetShare = latestIncomeStats.target[idx].toFixed(1);
-        const sdShare = latestIncomeStats.sd[idx].toFixed(1);
-        const countyLabel = countyNameByFips.get(selectedCountyFips) || 'your selected county';
-        if (feedback) {
-            feedback.textContent = `With an income around $${income.toLocaleString()}, you align with the ${highlight} group. That tier captures ${targetShare}% of loans in ${countyLabel} and ${sdShare}% in San Diego.`;
-        }
-    }
-
-    // --- Heatmap Logic ---
+    // --- Section 5 Logic (Fixed) ---
     function toggleHeatmap() {
         currentHeatmapMode = currentHeatmapMode === 'target' ? 'sd' : 'target';
-        updateHeatmapButton();
-        const yearData = tractDataByYear.get(currentYear);
+        updateHeatmapLabel();
         const fips = currentHeatmapMode === 'target' ? selectedCountyFips : SD_FIPS;
-        const data = yearData.filter(d => d.county_fips === fips);
-        renderHeatmap(data);
+        const data = tractDataByYear.get(currentYear).filter(d => d.county_fips === fips);
+        // Only render static heatmap here, no user highlight
+        renderHeatmap('chart-heatmap', data, null, null);
     }
 
-    function updateHeatmapButton() {
-        const statusSpan = document.getElementById('heatmap-status').querySelector('span');
-        const targetName = countyNameByFips.get(selectedCountyFips);
+    function updateHeatmapLabel() {
+        const span = document.getElementById('heatmap-status');
         if (currentHeatmapMode === 'target') {
-            statusSpan.textContent = targetName;
-            statusSpan.style.color = 'var(--target-color)';
+            span.innerHTML = `Viewing: <span style="color:var(--target-color)">${countyNameByFips.get(selectedCountyFips)}</span>`;
         } else {
-            statusSpan.textContent = "San Diego County";
-            statusSpan.style.color = 'var(--sd-color)';
+            span.innerHTML = `Viewing: <span style="color:var(--sd-color)">San Diego County</span>`;
         }
     }
 
-    function renderHeatmap(data) {
-        const races = ['White', 'African American', 'Hispanic', 'Asian'];
-        const raceKeys = ['white', 'black', 'hispanic', 'asian'];
-        const incomes = ['Very Low', 'Low', 'Moderate', 'High'];
+    // --- Static Analysis Generators ---
+    function generateLoanAnalysis(data, name) {
+        let bins = [0,0,0,0]; data.forEach(d => { const amt = +d.owner_loan_amount_median||0; const count = +d.owner_purchase_originations||0; if (amt < 200000) bins[0] += count; else if (amt < 400000) bins[1] += count; else if (amt < 600000) bins[2] += count; else bins[3] += count; });
+        const total = d3.sum(bins); if (total === 0) return;
+        const labels = ['$0-200k', '$200k-400k', '$400k-600k', '$600k+']; const maxIdx = bins.indexOf(Math.max(...bins)); const maxPct = (bins[maxIdx] / total * 100).toFixed(1);
+        const dominantBin = labels[maxIdx];
         
-        const zCounts = races.map((_, i) => {
-            const raceKey = raceKeys[i];
-            return incomes.map(income => {
-                const col = `race_${raceKey}_income_${income.toLowerCase().replace(' ', '')}`;
-                return d3.sum(data, d => +d[col] || 0);
-            });
-        });
-
-        const total = d3.sum(zCounts.flat());
-        const zNorm = zCounts.map(row => row.map(val => total > 0 ? (val / total * 100) : 0));
-        const textValues = zNorm.map(row => row.map(val => val.toFixed(1) + '%'));
-
-        latestHeatmap = { races, incomes, zNorm, textValues };
-        updateHeatmapInteraction();
+        let headline, narrative;
+        if (maxIdx >= 3) { headline = "Market Exclusion through Pricing"; narrative = `The dominant price range in ${name} is <strong>${dominantBin}</strong>, accounting for <strong>${maxPct}%</strong> of all loans. This high-cost environment signals deep wealth segregation.`; } 
+        else if (maxIdx <= 1) { headline = "Entry-Level Access or Undervaluation?"; narrative = `With <strong>${maxPct}%</strong> of loans falling in the <strong>${dominantBin}</strong> range, ${name} remains one of the few areas offering access to first-time buyers.`; } 
+        else { headline = "The Missing Middle?"; narrative = `The market is concentrated in the <strong>${dominantBin}</strong> range (${maxPct}%), suggesting a stable middle-class housing stock.`; }
+        document.getElementById('analysis-loan-highlight').textContent = headline; document.getElementById('analysis-loan-text').innerHTML = narrative;
+    }
+    function generateAgeAnalysis(data, name) {
+        const counts = { 'Young Adults (18-34)': d3.sum(data, d => +(d.age_younger_purchase||0)), 'Mid-Career (35-54)': d3.sum(data, d => +(d.age_middleyounger_purchase||0)) + d3.sum(data, d => +(d.age_middleolder_purchase||0)), 'Older (55+)': d3.sum(data, d => +(d.age_older_purchase||0)) };
+        const total = d3.sum(Object.values(counts)); if (total === 0) return;
+        const maxGroup = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b); const maxPct = (counts[maxGroup] / total * 100).toFixed(1);
+        let headline, narrative;
+        if (maxGroup.includes('Young')) { headline = "Building Future Wealth"; narrative = `Young adults (18-34) dominate the market with <strong>${maxPct}%</strong> of loans. This suggests ${name} is acting as a critical launchpad for generational wealth building.`; } 
+        else if (maxGroup.includes('Older')) { headline = "Wealth Consolidation"; narrative = `Older borrowers (55+) account for <strong>${maxPct}%</strong> of mortgage activity. A market skewed toward older buyers often signals high entry barriers.`; } 
+        else { headline = "Established Homeowners"; narrative = `The market is anchored by mid-career borrowers (${maxGroup}), who represent <strong>${maxPct}%</strong> of activity.`; }
+        document.getElementById('analysis-age-highlight').textContent = headline; document.getElementById('analysis-age-text').innerHTML = narrative;
+    }
+    function generateRaceAnalysis(data, name) {
+        const counts = { 'White': d3.sum(data, d=>+d.race_white_purchase||0), 'Total': d3.sum(data, d=>+d.owner_purchase_originations||0) }; const minPct = counts.Total > 0 ? ((counts.Total - counts.White)/counts.Total*100).toFixed(1) : 0;
+        let headline, narrative;
+        if (parseFloat(minPct) < 20) { headline = "Systemic Exclusion"; narrative = `In ${name}, minority borrowers represent only <strong>${minPct}%</strong> of the market. This stark disparity highlights persistent systemic barriers.`; } 
+        else if (parseFloat(minPct) > 50) { headline = "A Shift in Demographics"; narrative = `Minority borrowers make up the majority (<strong>${minPct}%</strong>) of the lending market in ${name}. It is crucial to examine the quality of this access.`; } 
+        else { headline = "Diversity with Disparities"; narrative = `While ${name} shows a diverse borrower base (${minPct}% minority), gaps between overall diversity and specific group homeownership often remain.`; }
+        document.getElementById('analysis-race-highlight').textContent = headline; document.getElementById('analysis-race-text').innerHTML = narrative;
+    }
+    function generateIncomeAnalysis(data, name) {
+        const map = { 'Very Low': d3.sum(data, d=>+(d.income_verylow_purchase||0)), 'Low': d3.sum(data, d=>+(d.income_low_purchase||0)), 'Moderate': d3.sum(data, d=>+(d.income_moderate_purchase||0)), 'High': d3.sum(data, d=>+(d.income_high_purchase||0)) };
+        const total = d3.sum(Object.values(map)); if (total === 0) return;
+        const maxGroup = Object.keys(map).reduce((a, b) => map[a] > map[b] ? a : b); const maxPct = (map[maxGroup] / total * 100).toFixed(1);
+        let headline, narrative;
+        if (maxGroup === 'High') { headline = "The Wealth Gatekeeper"; narrative = `<strong>High Income</strong> borrowers secure <strong>${maxPct}%</strong> of all loans in ${name}. This signals a market structurally unaffordable for the working class.`; } 
+        else if (maxGroup === 'Very Low' || maxGroup === 'Low') { headline = "Pathways for Modest Incomes"; narrative = `Unlike many regions, ${name} sees <strong>${maxPct}%</strong> of loans going to <strong>${maxGroup} Income</strong> borrowers.`; } 
+        else { headline = "The Middle-Class Squeeze"; narrative = `Activity is centered on <strong>${maxGroup} Income</strong> borrowers (${maxPct}%), indicating a stable middle-class market.`; }
+        document.getElementById('analysis-income-highlight').textContent = headline; document.getElementById('analysis-income-text').innerHTML = narrative;
     }
 
-    function drawHeatmapWithHighlight(race, income) {
-        if (!latestHeatmap) return;
-        const { races, incomes, zNorm, textValues } = latestHeatmap;
-        const trace = {
-            z: zNorm,
-            x: incomes,
-            y: races,
-            type: 'heatmap',
-            colorscale: 'Blues',
-            xgap: 5, ygap: 5,
-            text: textValues,
-            texttemplate: '<b>%{text}</b>',
-            textfont: { family: 'Arial, sans-serif', size: 16, color: 'auto' },
-            hovertemplate: 'Income: %{x}<br>Race: %{y}<br>Share: %{z:.1f}%<extra></extra>'
-        };
+    // --- Helpers ---
+    const getLoanBucket = s => s<580?'$0-200k': s<670?'$200k-400k': s<740?'$400k-600k':'$600k+';
+    const getAgeBucket = a => a<35?'18-34': a<45?'35-44': a<55?'45-54':'55+';
+    const getIncomeBucket = i => i<60000?'Very Low': i<95000?'Low': i<140000?'Moderate':'High';
+    function getAggStats(data, map) { const t = d3.sum(data, d=>+d.owner_purchase_originations||0); const vals = Object.values(map).map(k => d3.sum(data, d=>+d[k]||0)); return { labels: Object.keys(map), values: vals.map(v => t>0 ? (v/t*100) : 0) }; }
 
-        const traces = [trace];
-        const raceIdx = races.indexOf(race);
-        const incomeIdx = incomes.indexOf(income);
-        if (raceIdx >= 0 && incomeIdx >= 0) {
+    function preparePersonalData(t, s) {
+        const bucket = d => { const a = +d.owner_loan_amount_median||0; return a<200000?0: a<400000?1: a<600000?2: 3; };
+        const calc = data => { const c=[0,0,0,0], tot=d3.sum(data, d=>+d.owner_purchase_originations||0); data.forEach(d => c[bucket(d)] += (+d.owner_purchase_originations||0)); return c.map(v => tot>0?(v/tot*100):0); };
+        latestLoanBins = { labels: ['$0-200k', '$200k-400k', '$400k-600k', '$600k+'], target: calc(t), sd: calc(s) };
+
+        const mapA = {'18-34':'age_younger_purchase','35-44':'age_middleyounger_purchase','45-54':'age_middleolder_purchase','55+':'age_older_purchase'};
+        const statsAT = getAggStats(t, mapA); const statsAS = getAggStats(s, mapA);
+        latestAgeStats = { labels: statsAT.labels, target: statsAT.values, sd: statsAS.values };
+
+        const mapR = {'White':'race_white_purchase','African American':'race_black_purchase','Hispanic':'race_hispanic_purchase','Asian':'race_asian_purchase'};
+        const statsRT = getAggStats(t, mapR); const statsRS = getAggStats(s, mapR);
+        latestRaceStats = { labels: statsRT.labels, target: statsRT.values, sd: statsRS.values };
+
+        const mapI = {'Very Low':'income_verylow_purchase','Low':'income_low_purchase','Moderate':'income_moderate_purchase','High':'income_high_purchase'};
+        const statsIT = getAggStats(t, mapI); const statsIS = getAggStats(s, mapI);
+        latestIncomeStats = { labels: statsIT.labels, target: statsIT.values, sd: statsIS.values };
+
+        const races=['White','African American','Hispanic','Asian']; const incomes=['Very Low','Low','Moderate','High']; const raceKeys=['white','black','hispanic','asian'];
+        const z = races.map((_, i) => incomes.map(inc => { const k = `race_${raceKeys[i]}_income_${inc.toLowerCase().replace(' ','')}`; return d3.sum(t, d=>+d[k]||0); }));
+        const tot = d3.sum(z.flat()); latestHeatmap = { races, incomes, zNorm: z.map(r => r.map(v => tot>0?(v/tot*100):0)) };
+    }
+
+    // --- Chart Renderers ---
+    function renderLoanChart(div, t, s, h) { if (!latestLoanBins && t) preparePersonalData(t, s); drawBar(div, latestLoanBins.labels, latestLoanBins.target, latestLoanBins.sd, '% Loans', h); }
+    function renderAgeChart(div, t, s, h) { if (!latestAgeStats && t) preparePersonalData(t, s); drawBar(div, latestAgeStats.labels, latestAgeStats.target, latestAgeStats.sd, '% Borrowers', h); }
+    function renderRaceChart(div, t, s, h) { if (!latestRaceStats && t) preparePersonalData(t, s); drawBar(div, latestRaceStats.labels, latestRaceStats.target, latestRaceStats.sd, '% Borrowers', h); }
+    function renderIncomeChart(div, t, s, h) { if (!latestIncomeStats && t) preparePersonalData(t, s); drawBar(div, latestIncomeStats.labels, latestIncomeStats.target, latestIncomeStats.sd, '% Borrowers', h); }
+    function renderHeatmap(div, t, race, inc) {
+        if(!t) return;
+        const races=['White','African American','Hispanic','Asian']; const incomes=['Very Low','Low','Moderate','High']; const raceKeys=['white','black','hispanic','asian'];
+        const z = races.map((_, i) => incomes.map(inc => { const k = `race_${raceKeys[i]}_income_${inc.toLowerCase().replace(' ','')}`; return d3.sum(t, d=>+d[k]||0); }));
+        const tot = d3.sum(z.flat()); const zNorm = z.map(r => r.map(v => tot>0?(v/tot*100):0));
+        drawHeatmap(div, { races, incomes, zNorm }, race, inc);
+    }
+
+    function drawBar(div, labels, tY, sY, title, highlight) {
+        const traces = [
+            { x: labels, y: tY, name: 'Selected County', type: 'bar', marker: {color: '#54a0ff'} },
+            { x: labels, y: sY, name: 'San Diego', type: 'bar', marker: {color: '#ff9f43'} }
+        ];
+
+        if(highlight && labels.includes(highlight)) {
+            const idx = labels.indexOf(highlight);
+            const yPos = tY[idx]; // Marker on target bar
             traces.push({
-                x: [income],
-                y: [race],
-                mode: 'markers+text',
-                marker: { color: '#e74c3c', size: 18, symbol: 'star' },
-                text: ['You'],
-                textposition: 'middle center',
-                name: 'Your position',
-                hovertemplate: 'You: %{y} / %{x}<extra></extra>'
+                x: [highlight], y: [yPos], mode: 'markers',
+                marker: { symbol: 'star', size: 18, color: '#e74c3c', line: {color: 'white', width: 2} },
+                name: 'You'
             });
         }
+        
+        Plotly.newPlot(div, traces, {
+            barmode: 'group', margin: {t:30,b:40,l:40,r:10}, height: 350,
+            legend: {orientation:'h', y:-0.15}, yaxis: {title: title, ticksuffix: '%'}
+        }, {responsive:true, displayModeBar: false});
+    }
 
-        const layout = {
-            margin: { t: 20, b: 40, l: 140, r: 20 },
-            height: 400,
-            xaxis: { title: 'Income Level' },
-            yaxis: { title: 'Race' },
-            showlegend: true,
-            legend: { orientation: 'h', y: -0.2 }
-        };
+    function drawHeatmap(divId, data, hRace, hInc) {
+        if(!data) return;
+        const traces = [{ z: data.zNorm, x: data.incomes, y: data.races, type: 'heatmap', colorscale: 'Blues', texttemplate: '%{z:.1f}%' }];
+        if(hRace && hInc) {
+            traces.push({ x: [hInc], y: [hRace], mode: 'markers', marker: { symbol: 'star', size: 18, color: '#e74c3c', line: {color: 'white', width: 2} }, name: 'You' });
+        }
+        Plotly.newPlot(divId, traces, { height: 400, margin: {t:20, l:120}, xaxis:{title:'Income'}, yaxis:{title:'Race'} }, {responsive:true, displayModeBar:false});
+    }
 
-        Plotly.newPlot('chart-heatmap', traces, layout, { responsive: true, displayModeBar: false });
-
-        const feedback = document.getElementById('heatmap-feedback');
-        if (feedback && raceIdx >= 0 && incomeIdx >= 0) {
-            const share = zNorm[raceIdx][incomeIdx].toFixed(1);
-            const countyLabel = currentHeatmapMode === 'target' ? (countyNameByFips.get(selectedCountyFips) || 'Selected county') : 'San Diego County';
-            feedback.textContent = `In ${countyLabel}, ${race} borrowers in the ${income} income band make up ${share}% of recent loans.`;
+    // --- Interactive Updates ---
+    function updatePersonalizedChart() {
+        const type = document.getElementById('personal-chart-select').value;
+        if (type === 'loan') {
+            const score = parseInt(document.getElementById('summary-credit').value);
+            const highlight = (score>=300 && score<=850) ? getLoanBucket(score) : null;
+            drawBar('chart-personal', latestLoanBins.labels, latestLoanBins.target, latestLoanBins.sd, '% Loans', highlight);
+        } else if (type === 'age') {
+            const age = parseInt(document.getElementById('summary-age').value);
+            const highlight = (age>=18) ? getAgeBucket(age) : null;
+            drawBar('chart-personal', latestAgeStats.labels, latestAgeStats.target, latestAgeStats.sd, '% Borrowers', highlight);
+        } else if (type === 'race') {
+            const race = document.getElementById('summary-race').value;
+            drawBar('chart-personal', latestRaceStats.labels, latestRaceStats.target, latestRaceStats.sd, '% Borrowers', race);
+        } else if (type === 'income') {
+            const inc = parseInt(document.getElementById('summary-income').value);
+            const highlight = (inc>0) ? getIncomeBucket(inc) : null;
+            drawBar('chart-personal', latestIncomeStats.labels, latestIncomeStats.target, latestIncomeStats.sd, '% Borrowers', highlight);
+        } else if (type === 'heatmap') {
+            const race = document.getElementById('summary-race').value;
+            const incVal = parseInt(document.getElementById('summary-income').value);
+            const incBucket = (incVal>0) ? getIncomeBucket(incVal) : 'Moderate';
+            drawHeatmap('chart-personal', latestHeatmap, race, incBucket);
         }
     }
 
-    function updateHeatmapInteraction() {
-        if (!latestHeatmap) return;
-        const raceSelect = document.getElementById('heatmap-race-select');
-        const incomeSelect = document.getElementById('heatmap-income-select');
-        const race = raceSelect?.value || latestHeatmap.races[0];
-        const income = incomeSelect?.value || latestHeatmap.incomes[0];
-        drawHeatmapWithHighlight(race, income);
+    function generateComprehensiveAnalysis() {
+        if (!selectedCountyFips) return;
+        const countyName = countyNameByFips.get(selectedCountyFips);
+        const textEl = document.getElementById('personal-analysis-text');
+
+        const score = parseInt(document.getElementById('summary-credit').value) || 0;
+        const age = parseInt(document.getElementById('summary-age').value) || 0;
+        const income = parseInt(document.getElementById('summary-income').value) || 0;
+        const race = document.getElementById('summary-race').value;
+
+        // --- ANALYSIS CONSTRUCTION ---
+        let lines = [];
+        lines.push(`Your Consolidated Market Position`);
+        lines.push(`Based on your inputs, here is your comparison against the actual mortgage market in <b>${countyName}</b> and San Diego County:`);
+
+        let diffSum = 0; // For comparison summary
+
+        // 1. Credit / Loan
+        if (score > 0) {
+            const bucket = getLoanBucket(score);
+            const idx = latestLoanBins.labels.indexOf(bucket);
+            const tShare = latestLoanBins.target[idx];
+            const sShare = latestLoanBins.sd[idx];
+            diffSum += (tShare - sShare);
+            lines.push(`Your FICO score of <b>${score}</b> positions you for a loan in the <b>${bucket}</b> range. This bracket accounts for <b>${tShare.toFixed(1)}%</b> of loans in ${countyName} and <b>${sShare.toFixed(1)}%</b> in San Diego.`);
+        }
+
+        // 2. Age
+        if (age > 0) {
+            const bucket = getAgeBucket(age);
+            const idx = latestAgeStats.labels.indexOf(bucket);
+            const tShare = latestAgeStats.target[idx];
+            const sShare = latestAgeStats.sd[idx];
+            diffSum += (tShare - sShare);
+            lines.push(`Your age of <b>${age}</b> falls into the <b>${bucket}</b> group. This group makes up <b>${tShare.toFixed(1)}%</b> of borrowers in ${countyName} and <b>${sShare.toFixed(1)}%</b> in San Diego.`);
+        }
+
+        // 3. Race
+        if (race) {
+            const idx = latestRaceStats.labels.indexOf(race);
+            const tShare = latestRaceStats.target[idx];
+            const sShare = latestRaceStats.sd[idx];
+            diffSum += (tShare - sShare);
+            lines.push(`The <b>${race}</b> group accounts for <b>${tShare.toFixed(1)}%</b> of mortgage borrowers in ${countyName} compared to <b>${sShare.toFixed(1)}%</b> in San Diego.`);
+        }
+
+        // 4. Income
+        if (income > 0) {
+            const bucket = getIncomeBucket(income);
+            const idx = latestIncomeStats.labels.indexOf(bucket);
+            const tShare = latestIncomeStats.target[idx];
+            const sShare = latestIncomeStats.sd[idx];
+            diffSum += (tShare - sShare);
+            lines.push(`Your income of <b>$${income.toLocaleString()}</b> is in the <b>${bucket}</b> bracket. This bracket represents <b>${tShare.toFixed(1)}%</b> of borrowers in ${countyName} and <b>${sShare.toFixed(1)}%</b> in San Diego.`);
+        }
+
+        // Comparative Summary
+        if (score > 0 || age > 0 || income > 0) {
+            lines.push(`<b>Comparative Summary</b>`);
+            if (Math.abs(diffSum) < 15) {
+                lines.push(`Your profile exhibits a <b>balanced position</b>; your borrower characteristics are roughly equally represented in both the <b>${countyName}</b> and San Diego County mortgage markets.`);
+            } else if (diffSum > 0) {
+                lines.push(`Your profile is <b>more represented in ${countyName}</b> than in San Diego, suggesting this market may align closer to your demographic and economic characteristics.`);
+            } else {
+                lines.push(`Your profile is <b>more represented in San Diego</b> than in ${countyName}, suggesting San Diego's market demographics align closer to your situation.`);
+            }
+        } else {
+            lines.push("Please enter all details above to generate the full comparison.");
+        }
+
+        textEl.innerHTML = lines.join("<br><br>");
     }
 
 </script>
